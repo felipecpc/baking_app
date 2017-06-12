@@ -6,15 +6,15 @@ package android.example.com.bakingapp.model;
 
 public class IngredientsModel {
 
-    int quantity;
+    float quantity;
     String measure;
     String ingredient;
 
-    public int getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 
