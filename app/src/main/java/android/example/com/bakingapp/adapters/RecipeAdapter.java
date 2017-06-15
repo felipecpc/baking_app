@@ -1,6 +1,7 @@
-package android.example.com.bakingapp;
+package android.example.com.bakingapp.adapters;
 
 import android.content.Context;
+import android.example.com.bakingapp.R;
 import android.example.com.bakingapp.model.RecipeModel;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

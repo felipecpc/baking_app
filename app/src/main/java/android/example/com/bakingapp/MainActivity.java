@@ -2,20 +2,23 @@ package android.example.com.bakingapp;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.example.com.bakingapp.adapters.RecipeSelectedInterface;
+import android.example.com.bakingapp.adapters.RecipeAdapter;
 import android.example.com.bakingapp.connection.ConnectionCallback;
 import android.example.com.bakingapp.connection.ConnectionManager;
 import android.example.com.bakingapp.model.RecipeModel;
+import android.example.com.bakingapp.view.RecipeInstructionsActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements RecipeSelectedInterface{
+public class MainActivity extends AppCompatActivity implements RecipeSelectedInterface {
 
     private RecyclerView mRecipeRecyclerView;
     private RecipeAdapter mRecipeAdapter;
@@ -75,5 +78,7 @@ public class MainActivity extends AppCompatActivity implements RecipeSelectedInt
     @Override
     public void recipeSelected(int selected) {
         Log.d(TAG, "Recipe selected " + selected);
+        Intent intent = new Intent(this,RecipeInstructionsActivity.class);
+        startActivity(intent);
     }
 }
