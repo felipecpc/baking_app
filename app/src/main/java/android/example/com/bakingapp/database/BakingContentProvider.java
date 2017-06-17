@@ -153,7 +153,7 @@ public class BakingContentProvider extends ContentProvider{
                 if ( id > 0 ) {
                     returnUri = ContentUris.withAppendedId(BakingContract.BASE_CONTENT_URI, id);
                 } else {
-                    //throw new android.database.SQLException("Failed to insert row into " + uri);
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
                 }
                 break;
             case CODE_INGREDIENTS:

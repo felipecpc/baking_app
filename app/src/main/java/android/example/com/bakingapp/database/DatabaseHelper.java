@@ -3,6 +3,7 @@ package android.example.com.bakingapp.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.example.com.bakingapp.model.IngredientsModel;
 import android.example.com.bakingapp.model.RecipeModel;
 import android.example.com.bakingapp.model.StepsModel;
@@ -27,33 +28,37 @@ public class DatabaseHelper {
 
     public void addRecipe(RecipeModel recipeModel){
 
-        ContentValues cv = new ContentValues();
-        cv.put(BakingContract.RecipeEntry.COLUMN_ID,recipeModel.getId());
-        cv.put(BakingContract.RecipeEntry.COLUMN_IMAGE,recipeModel.getImage());
-        cv.put(BakingContract.RecipeEntry.COLUMN_NAME,recipeModel.getName());
-        cv.put(BakingContract.RecipeEntry.COLUMN_SERVING,recipeModel.getServings());
-        mContext.getContentResolver().insert(BakingContract.RecipeEntry.CONTENT_URI,cv);
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put(BakingContract.RecipeEntry.COLUMN_ID,recipeModel.getId());
+            cv.put(BakingContract.RecipeEntry.COLUMN_IMAGE,recipeModel.getImage());
+            cv.put(BakingContract.RecipeEntry.COLUMN_NAME,recipeModel.getName());
+            cv.put(BakingContract.RecipeEntry.COLUMN_SERVING,recipeModel.getServings());
+            mContext.getContentResolver().insert(BakingContract.RecipeEntry.CONTENT_URI,cv);
 
 
-        List<IngredientsModel> ingData = recipeModel.getIngredients();
-        for (IngredientsModel ingredients:ingData) {
-            ContentValues cv2 = new ContentValues();
-            cv2.put(BakingContract.IngredientsEntry.COLUMN_RECIPE_ID, recipeModel.getId());
-            cv2.put(BakingContract.IngredientsEntry.COLUMN_INGREDIENT, ingredients.getIngredient());
-            cv2.put(BakingContract.IngredientsEntry.COLUMN_MEASURE, ingredients.getMeasure());
-            cv2.put(BakingContract.IngredientsEntry.COLUMN_QTD, String.valueOf(ingredients.getQuantity()));
-            mContext.getContentResolver().insert(BakingContract.IngredientsEntry.CONTENT_URI,cv2);
-        }
+            List<IngredientsModel> ingData = recipeModel.getIngredients();
+            for (IngredientsModel ingredients : ingData) {
+                ContentValues cv2 = new ContentValues();
+                cv2.put(BakingContract.IngredientsEntry.COLUMN_RECIPE_ID, recipeModel.getId());
+                cv2.put(BakingContract.IngredientsEntry.COLUMN_INGREDIENT, ingredients.getIngredient());
+                cv2.put(BakingContract.IngredientsEntry.COLUMN_MEASURE, ingredients.getMeasure());
+                cv2.put(BakingContract.IngredientsEntry.COLUMN_QTD, String.valueOf(ingredients.getQuantity()));
+                mContext.getContentResolver().insert(BakingContract.IngredientsEntry.CONTENT_URI, cv2);
+            }
 
-        List<StepsModel> stepsData = recipeModel.getSteps();
-        for (StepsModel steps:stepsData) {
-            ContentValues cv2 = new ContentValues();
-            cv2.put(BakingContract.StepsEntry.COLUMN_RECIPE_ID, recipeModel.getId());
-            cv2.put(BakingContract.StepsEntry.COLUMN_FULL_DESCRIPTION, steps.getDescription());
-            cv2.put(BakingContract.StepsEntry.COLUMN_DESCRIPTION, steps.getShortDescription());
-            cv2.put(BakingContract.StepsEntry.COLUMN_THUMBNAIL, steps.getThumbnailURL());
-            cv2.put(BakingContract.StepsEntry.COLUMN_VIDEO, steps.getVideoURL());
-            mContext.getContentResolver().insert(BakingContract.StepsEntry.CONTENT_URI,cv2);
+            List<StepsModel> stepsData = recipeModel.getSteps();
+            for (StepsModel steps : stepsData) {
+                ContentValues cv2 = new ContentValues();
+                cv2.put(BakingContract.StepsEntry.COLUMN_RECIPE_ID, recipeModel.getId());
+                cv2.put(BakingContract.StepsEntry.COLUMN_FULL_DESCRIPTION, steps.getDescription());
+                cv2.put(BakingContract.StepsEntry.COLUMN_DESCRIPTION, steps.getShortDescription());
+                cv2.put(BakingContract.StepsEntry.COLUMN_THUMBNAIL, steps.getThumbnailURL());
+                cv2.put(BakingContract.StepsEntry.COLUMN_VIDEO, steps.getVideoURL());
+                mContext.getContentResolver().insert(BakingContract.StepsEntry.CONTENT_URI, cv2);
+            }
+        }catch (Exception e){
+
         }
 
     }
@@ -94,14 +99,14 @@ public class DatabaseHelper {
         }
 
         Cursor cursor2 = mContext.getContentResolver().query(BakingContract.StepsEntry.buildWeatherUriWithID(String.valueOf(id)),null, null, null, null);
-        Log.d(TAG,"Cursor " + cursor.getCount());
-        if (cursor!=null) {
-            while (cursor.moveToNext()) {
+        Log.d(TAG,"Cursor2 " + cursor2.getCount());
+        if (cursor2!=null) {
+            while (cursor2.moveToNext()) {
                 StepsModel stepsModel = new StepsModel();
-                stepsModel.setDescription(cursor2.getString(cursor.getColumnIndex(BakingContract.StepsEntry.COLUMN_FULL_DESCRIPTION)));
-                stepsModel.setShortDescription(cursor2.getString(cursor.getColumnIndex(BakingContract.StepsEntry.COLUMN_DESCRIPTION)));
-                stepsModel.setThumbnailURL(cursor2.getString(cursor.getColumnIndex(BakingContract.StepsEntry.COLUMN_THUMBNAIL)));
-                stepsModel.setVideoURL(cursor2.getString(cursor.getColumnIndex(BakingContract.StepsEntry.COLUMN_VIDEO)));
+                stepsModel.setDescription(cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_FULL_DESCRIPTION)));
+                stepsModel.setShortDescription(cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_DESCRIPTION)));
+                stepsModel.setThumbnailURL(cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_THUMBNAIL)));
+                stepsModel.setVideoURL(cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_VIDEO)));
                 stepList.add(stepsModel);
             }
 
