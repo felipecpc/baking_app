@@ -1,14 +1,20 @@
 package android.example.com.bakingapp;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.example.com.bakingapp.adapters.RecipeSelectedInterface;
 import android.example.com.bakingapp.adapters.RecipeAdapter;
 import android.example.com.bakingapp.connection.ConnectionCallback;
 import android.example.com.bakingapp.connection.ConnectionManager;
+import android.example.com.bakingapp.database.DatabaseHelper;
 import android.example.com.bakingapp.model.RecipeModel;
 import android.example.com.bakingapp.view.RecipeInstructionsActivity;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements RecipeSelectedInt
         mRecipeAdapter = new RecipeAdapter(this);
         mRecipeRecyclerView.setAdapter(mRecipeAdapter);
 
+        final DatabaseHelper mDBHelper = new DatabaseHelper(this);
 
         ConnectionManager cManager = ConnectionManager.getInstance();
         cManager.request(ConnectionManager.URL, new ConnectionCallback() {
@@ -64,7 +71,13 @@ public class MainActivity extends AppCompatActivity implements RecipeSelectedInt
                             });
                     alertDialog.show();
                 }else{
-                    mRecipeAdapter.setRecipes((ArrayList<RecipeModel>) data);
+                    ArrayList<RecipeModel> recipes = (ArrayList<RecipeModel>) data;
+                    for(RecipeModel recipe: recipes) {
+                        mDBHelper.addRecipe(recipe);
+                        mRecipeAdapter.setRecipes(mDBHelper.getRecipes());
+                    }
+
+                    mRecipeList = recipes;
                 }
 
             }
@@ -73,12 +86,20 @@ public class MainActivity extends AppCompatActivity implements RecipeSelectedInt
 
 
 
+
+
+
+
+
     }
 
     @Override
     public void recipeSelected(int selected) {
-        Log.d(TAG, "Recipe selected " + selected);
+        Log.d(TAG, "Recipe selected " + selected + " " + mRecipeList.get(selected).getId());
         Intent intent = new Intent(this,RecipeInstructionsActivity.class);
+        intent.putExtra("ID",mRecipeList.get(selected).getId());
         startActivity(intent);
     }
+
+
 }

@@ -3,6 +3,7 @@ package android.example.com.bakingapp.view;
 import android.content.Context;
 import android.example.com.bakingapp.adapters.RecipeAdapter;
 import android.example.com.bakingapp.adapters.RecipeDetailsAdapter;
+import android.example.com.bakingapp.database.BakingAppDBHelper;
 import android.example.com.bakingapp.model.IngredientsModel;
 import android.example.com.bakingapp.model.RecipeModel;
 import android.example.com.bakingapp.model.StepsModel;
@@ -12,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,8 @@ import java.util.List;
 
 public class RecipeMasterListFragment extends Fragment {
 
+    private final String TAG = RecipeMasterListFragment.class.getSimpleName();
+
     RecyclerView mRecipeRecyclerViewList = null;
     RecipeDetailsAdapter mRecipeDetailsAdapter = null;
 
@@ -30,6 +34,9 @@ public class RecipeMasterListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        RecipeInstructionsActivity masterActivity = (RecipeInstructionsActivity) getActivity();
+
         View rootView = inflater.inflate(R.layout.fragment_master_list,container,false);
 
         mRecipeRecyclerViewList = (RecyclerView) rootView.findViewById(R.id.rv_recipe_details);
@@ -42,10 +49,11 @@ public class RecipeMasterListFragment extends Fragment {
         mRecipeDetailsAdapter = new RecipeDetailsAdapter();
         mRecipeRecyclerViewList.setAdapter(mRecipeDetailsAdapter);
 
-        //Creating some fake data
-        RecipeModel rfake = new RecipeModel();
 
-        StepsModel sFake = new StepsModel();
+        //Creating some fake data
+        RecipeModel rfake = masterActivity.getRecipeDetails();
+
+/*        StepsModel sFake = new StepsModel();
         sFake.setDescription("Step 1 - Porra!!");
         List<StepsModel> listStepsModel = new ArrayList<StepsModel>();
         listStepsModel.add(sFake);
@@ -57,7 +65,7 @@ public class RecipeMasterListFragment extends Fragment {
 
 
         rfake.setSteps(listStepsModel);
-        rfake.setIngredients(listIngredientsModel);
+        rfake.setIngredients(listIngredientsModel);*/
 
         mRecipeDetailsAdapter.setData(rfake);
 
