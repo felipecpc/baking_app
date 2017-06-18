@@ -1,6 +1,7 @@
 package android.example.com.bakingapp.view;
 
 import android.content.Context;
+import android.example.com.bakingapp.adapters.ItemSelectedInterface;
 import android.example.com.bakingapp.adapters.RecipeAdapter;
 import android.example.com.bakingapp.adapters.RecipeDetailsAdapter;
 import android.example.com.bakingapp.database.BakingAppDBHelper;
@@ -23,7 +24,7 @@ import android.example.com.bakingapp.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeMasterListFragment extends Fragment {
+public class RecipeMasterListFragment extends Fragment{
 
     private final String TAG = RecipeMasterListFragment.class.getSimpleName();
 
@@ -67,19 +68,15 @@ public class RecipeMasterListFragment extends Fragment {
         rfake.setSteps(listStepsModel);
         rfake.setIngredients(listIngredientsModel);*/
 
-        mRecipeDetailsAdapter.setData(rfake);
+        mRecipeDetailsAdapter.setData(rfake,mCallback);
 
         return rootView;
 
     }
 
 
-    public interface OnRecipeItemClickListener {
-        void onRecipeItemClickListener(int position);
-    }
 
-
-    OnRecipeItemClickListener mCallback;
+    ItemSelectedInterface mCallback;
 
     // Override onAttach to make sure that the container activity has implemented the callback
     @Override
@@ -89,7 +86,7 @@ public class RecipeMasterListFragment extends Fragment {
         // This makes sure that the host activity has implemented the callback interface
         // If not, it throws an exception
         try {
-            mCallback = (OnRecipeItemClickListener) context;
+            mCallback = (ItemSelectedInterface) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement OnImageClickListener");

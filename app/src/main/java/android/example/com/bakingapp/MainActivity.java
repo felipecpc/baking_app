@@ -1,20 +1,15 @@
 package android.example.com.bakingapp;
 
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.example.com.bakingapp.adapters.RecipeSelectedInterface;
+import android.example.com.bakingapp.adapters.ItemSelectedInterface;
 import android.example.com.bakingapp.adapters.RecipeAdapter;
 import android.example.com.bakingapp.connection.ConnectionCallback;
 import android.example.com.bakingapp.connection.ConnectionManager;
 import android.example.com.bakingapp.database.DatabaseHelper;
 import android.example.com.bakingapp.model.RecipeModel;
 import android.example.com.bakingapp.view.RecipeInstructionsActivity;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,7 +19,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements RecipeSelectedInterface {
+public class MainActivity extends AppCompatActivity implements ItemSelectedInterface {
 
     private RecyclerView mRecipeRecyclerView;
     private RecipeAdapter mRecipeAdapter;
@@ -83,18 +78,10 @@ public class MainActivity extends AppCompatActivity implements RecipeSelectedInt
             }
         });
 
-
-
-
-
-
-
-
-
     }
 
     @Override
-    public void recipeSelected(int selected) {
+    public void itemSelected(int selected) {
         Log.d(TAG, "Recipe selected " + selected + " " + mRecipeList.get(selected).getId());
         Intent intent = new Intent(this,RecipeInstructionsActivity.class);
         intent.putExtra("ID",mRecipeList.get(selected).getId());

@@ -1,6 +1,7 @@
 package android.example.com.bakingapp.view;
 
 import android.example.com.bakingapp.R;
+import android.example.com.bakingapp.adapters.ItemSelectedInterface;
 import android.example.com.bakingapp.database.BakingAppDBHelper;
 import android.example.com.bakingapp.database.DatabaseHelper;
 import android.example.com.bakingapp.model.RecipeModel;
@@ -8,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-public class RecipeInstructionsActivity extends AppCompatActivity implements RecipeMasterListFragment.OnRecipeItemClickListener{
+public class RecipeInstructionsActivity extends AppCompatActivity implements ItemSelectedInterface {
 
     private static String TAG = RecipeInstructionsActivity.class.getSimpleName();
     private RecipeModel mRecipeModel = null;
@@ -33,12 +34,12 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Rec
 
     }
 
-    @Override
-    public void onRecipeItemClickListener(int position) {
-
-    }
-
     public RecipeModel getRecipeDetails(){
         return mRecipeModel;
+    }
+
+    @Override
+    public void itemSelected(int selected) {
+        Log.d(TAG,"Item clicked position " + selected);
     }
 }

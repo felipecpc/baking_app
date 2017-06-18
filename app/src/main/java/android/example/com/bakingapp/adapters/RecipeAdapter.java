@@ -21,9 +21,9 @@ import java.util.ArrayList;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>  {
 
     ArrayList<RecipeModel> mRecipeItems = new ArrayList<RecipeModel>();
-    RecipeSelectedInterface mRecipeSelectedInterface;
+    ItemSelectedInterface mRecipeSelectedInterface;
 
-    public RecipeAdapter(RecipeSelectedInterface selectedInterface){
+    public RecipeAdapter(ItemSelectedInterface selectedInterface){
         mRecipeSelectedInterface = selectedInterface;
     }
 
@@ -72,7 +72,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         @Override
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
-            mRecipeSelectedInterface.recipeSelected(clickedPosition);
+            mRecipeSelectedInterface.itemSelected(clickedPosition);
         }
     }
 

@@ -20,6 +20,7 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     RecipeModel mRecipeModel;
     List<StepsModel> steps = new ArrayList<>();
+    ItemSelectedInterface mClickListener;
 
     public static final int ITEM_TYPE_HEADER = 0;
     public static final int ITEM_TYPE_NORMAL = 1;
@@ -41,17 +42,21 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
         final int itemType = getItemViewType(position);
 
         if (itemType == ITEM_TYPE_NORMAL) {
-            ((RecipeStepsViewHolder)holder).setText(steps.get(position-1).getDescription());
+            ((RecipeStepsViewHolder)holder).setText(String.valueOf(position),steps.get(position-1).getShortDescription());
+
         } else if (itemType == ITEM_TYPE_HEADER) {
             ((RecipeIngredientsViewHolder)holder).setText("Ingredients");
         }
     }
 
-    public void setData(RecipeModel recipeItems){
+    public void setData(RecipeModel recipeItems, ItemSelectedInterface event){
         mRecipeModel = recipeItems;
         steps = recipeItems.getSteps();
         notifyDataSetChanged();
+        mClickListener = event;
     }
+
+
 
     @Override
     public int getItemViewType(int position) {
@@ -91,16 +96,25 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public class RecipeStepsViewHolder extends RecyclerView.ViewHolder{
 
         private TextView tvStepDescription;
+        private TextView tvStepCounter;
 
         public RecipeStepsViewHolder(View view) {
             super(view);
 
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int clickedPosition = getAdapterPosition();
+                    mClickListener.itemSelected(clickedPosition);
+                }
+            });
             tvStepDescription = (TextView) view.findViewById(R.id.textView_step_description);
-
+            tvStepCounter = (TextView) view.findViewById(R.id.textView_step_counter);
         }
 
-        public void setText(String text){
+        public void setText(String position, String text){
             tvStepDescription.setText(text);
+            tvStepCounter.setText(position);
         }
 
     }
