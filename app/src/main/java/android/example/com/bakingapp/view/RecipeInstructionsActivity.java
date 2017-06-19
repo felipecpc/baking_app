@@ -1,5 +1,6 @@
 package android.example.com.bakingapp.view;
 
+import android.content.Intent;
 import android.example.com.bakingapp.R;
 import android.example.com.bakingapp.adapters.ItemSelectedInterface;
 import android.example.com.bakingapp.database.BakingAppDBHelper;
@@ -41,5 +42,7 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
     @Override
     public void itemSelected(int selected) {
         Log.d(TAG,"Item clicked position " + selected);
+        Intent intent = new Intent(this,StepDetailsActivity.class);
+        startActivity(intent);
     }
 }

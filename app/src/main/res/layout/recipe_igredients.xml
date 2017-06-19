@@ -8,11 +8,22 @@
     <TextView
         android:id="@+id/textView_ingredients_title"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:text="@string/ingredients"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textSize="16sp"
+        tools:text="Ingredients:" />
+
+    <TextView
+        android:id="@+id/textView_ingredients_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/ingredients"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         tools:text="Ingredients" />
+
 
     <TextView
         android:id="@+id/textView"
@@ -20,5 +31,6 @@
         android:layout_height="wrap_content"
         android:text="@string/steps"
         android:layout_margin="5dp"
+        android:textSize="16sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 </LinearLayout>

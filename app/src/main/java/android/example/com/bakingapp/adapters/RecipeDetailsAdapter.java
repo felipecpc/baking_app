@@ -1,6 +1,7 @@
 package android.example.com.bakingapp.adapters;
 
 import android.example.com.bakingapp.R;
+import android.example.com.bakingapp.model.IngredientsModel;
 import android.example.com.bakingapp.model.RecipeModel;
 import android.example.com.bakingapp.model.StepsModel;
 import android.support.v7.widget.RecyclerView;
@@ -45,9 +46,14 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((RecipeStepsViewHolder)holder).setText(String.valueOf(position),steps.get(position-1).getShortDescription());
 
         } else if (itemType == ITEM_TYPE_HEADER) {
-            ((RecipeIngredientsViewHolder)holder).setText("Ingredients");
+            String ingredients="";
+            for(IngredientsModel ingredModel:  mRecipeModel.getIngredients()){
+                ingredients = ingredients + ingredModel.getQuantity() + " " + ingredModel.getMeasure() + " " + ingredModel.getIngredient() + "\n";
+            }
+            ((RecipeIngredientsViewHolder)holder).setText(ingredients);
         }
     }
+
 
     public void setData(RecipeModel recipeItems, ItemSelectedInterface event){
         mRecipeModel = recipeItems;
@@ -84,7 +90,7 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
         public RecipeIngredientsViewHolder(View view) {
             super(view);
 
-            tvIngredientsTitle = (TextView) view.findViewById(R.id.textView_ingredients_title);
+            tvIngredientsTitle = (TextView) view.findViewById(R.id.textView_ingredients_details);
         }
 
         public void setText(String text){
