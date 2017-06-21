@@ -102,11 +102,11 @@ public class DatabaseHelper {
         Log.d(TAG,"Cursor2 " + cursor2.getCount());
         if (cursor2!=null) {
             while (cursor2.moveToNext()) {
-                StepsModel stepsModel = new StepsModel();
-                stepsModel.setDescription(cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_FULL_DESCRIPTION)));
-                stepsModel.setShortDescription(cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_DESCRIPTION)));
-                stepsModel.setThumbnailURL(cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_THUMBNAIL)));
-                stepsModel.setVideoURL(cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_VIDEO)));
+                StepsModel stepsModel = new StepsModel(0,
+                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_DESCRIPTION)),
+                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_FULL_DESCRIPTION)),
+                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_THUMBNAIL)),
+                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_VIDEO)));
                 stepList.add(stepsModel);
             }
 

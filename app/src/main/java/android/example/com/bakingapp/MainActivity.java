@@ -9,6 +9,7 @@ import android.example.com.bakingapp.connection.ConnectionCallback;
 import android.example.com.bakingapp.connection.ConnectionManager;
 import android.example.com.bakingapp.database.DatabaseHelper;
 import android.example.com.bakingapp.model.RecipeModel;
+import android.example.com.bakingapp.model.StepsModel;
 import android.example.com.bakingapp.view.RecipeInstructionsActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
     public void itemSelected(int selected) {
         Log.d(TAG, "Recipe selected " + selected + " " + mRecipeList.get(selected).getId());
         Intent intent = new Intent(this,RecipeInstructionsActivity.class);
-        intent.putExtra("ID",mRecipeList.get(selected).getId());
+        intent.putExtra(StepsModel.ID,mRecipeList.get(selected).getId());
         startActivity(intent);
     }
 

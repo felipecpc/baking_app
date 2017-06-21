@@ -46,11 +46,12 @@ public class StepDetailsActivity extends AppCompatActivity {
 
             StepDetailsFragment stepsFragment = new StepDetailsFragment();
 
-            //Fake data
-            StepsModel fake = new StepsModel();
-            fake.setShortDescription("Short Description");
-            fake.setDescription("This is the full description porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra porra ");
-            stepsFragment.setData(fake);
+            StepsModel steps=null;
+            if(getIntent().hasExtra(StepsModel.DATA)){
+                steps = getIntent().getParcelableExtra(StepsModel.DATA);
+            }
+
+            stepsFragment.setData(steps);
 
             FragmentManager fmStepDetails = getSupportFragmentManager();
 
