@@ -29,9 +29,6 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
     private static String TAG = RecipeInstructionsActivity.class.getSimpleName();
     private RecipeModel mRecipeModel = null;
 
-    private SimpleExoPlayerView mPlayerView;
-    private SimpleExoPlayer mExoPlayer;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -39,7 +36,6 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
 
         super.onCreate(savedInstanceState);
 
-        mPlayerView = (SimpleExoPlayerView) findViewById(R.id.surface_view);
 
         if(getIntent().hasExtra(StepsModel.ID)){
             Log.d(TAG,"This is the ID " + getIntent().getIntExtra(StepsModel.ID,0));
@@ -56,35 +52,6 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
     }
 
 
-    /**
-     * Initialize ExoPlayer.
-     * @param mediaUri The URI of the sample to play.
-     */
-    private void initializePlayer(Uri mediaUri) {
-        if (mExoPlayer == null) {
-            // Create an instance of the ExoPlayer.
-            TrackSelector trackSelector = new DefaultTrackSelector();
-            LoadControl loadControl = new DefaultLoadControl();
-            mExoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
-            mPlayerView.setPlayer(mExoPlayer);
-            // Prepare the MediaSource.
-            String userAgent = Util.getUserAgent(this, "ClassicalMusicQuiz");
-            MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
-                    this, userAgent), new DefaultExtractorsFactory(), null, null);
-            mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
-        }
-    }
-
-
-    /**
-     * Release ExoPlayer.
-     */
-    private void releasePlayer() {
-        mExoPlayer.stop();
-        mExoPlayer.release();
-        mExoPlayer = null;
-    }
 
 
     public RecipeModel getRecipeDetails(){

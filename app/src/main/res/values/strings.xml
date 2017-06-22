@@ -7,4 +7,6 @@
     <string name="content_authority">android.eample.com.bakingapp</string>
     <string name="details">Details:</string>
     <string name="steps">Steps:</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
 </resources>

@@ -21,6 +21,15 @@
             android:layout_below="@+id/framelayout_mediaplayer"
             android:layout_marginTop="18dp"></FrameLayout>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/framelayout_steps_details"
+            android:layout_marginTop="5dp"
+            android:id="@+id/framelayout_steps_browser">
+
+
+        </FrameLayout>
     </RelativeLayout>
 
 
