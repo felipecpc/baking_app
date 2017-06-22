@@ -33,7 +33,7 @@ public class ExoPlayerFragment extends Fragment {
 
     private SimpleExoPlayerView mPlayerView;
     private SimpleExoPlayer mExoPlayer;
-
+    private String mVideoURL;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,8 +42,9 @@ public class ExoPlayerFragment extends Fragment {
 
         mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.simpleExoPlayerView);
 
+        if(mVideoURL!=null)
+            initializePlayer(Uri.parse(mVideoURL));
 
-        initializePlayer(Uri.parse("https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4"));
         return rootView;
     }
 
@@ -78,9 +79,15 @@ public class ExoPlayerFragment extends Fragment {
      * Release ExoPlayer.
      */
     private void releasePlayer() {
-        mExoPlayer.stop();
-        mExoPlayer.release();
-        mExoPlayer = null;
+        if(mExoPlayer!=null) {
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
     }
 
+    public void setUrl(String videoURL) {
+        mVideoURL = videoURL;
+
+    }
 }

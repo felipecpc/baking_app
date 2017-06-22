@@ -106,8 +106,8 @@ public class DatabaseHelper {
                         cursor2.getInt(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_STEP_ID)),
                         cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_DESCRIPTION)),
                         cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_FULL_DESCRIPTION)),
-                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_THUMBNAIL)),
-                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_VIDEO)));
+                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_VIDEO)),
+                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_THUMBNAIL)));
                 stepList.add(stepsModel);
             }
 
@@ -129,8 +129,8 @@ public class DatabaseHelper {
                         Integer.parseInt(cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_STEP_ID))),
                         cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_DESCRIPTION)),
                         cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_FULL_DESCRIPTION)),
-                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_THUMBNAIL)),
-                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_VIDEO)));
+                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_VIDEO)),
+                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_THUMBNAIL)));
 
         }
 

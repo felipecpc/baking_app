@@ -1,6 +1,7 @@
 package android.example.com.bakingapp.view;
 
 
+import android.content.Intent;
 import android.example.com.bakingapp.database.DatabaseHelper;
 import android.example.com.bakingapp.model.StepsModel;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.example.com.bakingapp.R;
+import android.widget.FrameLayout;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -37,6 +39,11 @@ public class StepDetailsActivity extends AppCompatActivity {
     int mRecipeId;
     int mStepsTotal;
 
+    StepDetailsFragment stepsFragment;
+    StepsBrowserFragment stepsBrowserFragment;
+    ExoPlayerFragment playerFragment;
+    FragmentManager fragmentManager;
+
     public StepDetailsActivity() {
         // Required empty public constructor
     }
@@ -46,19 +53,13 @@ public class StepDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.step_details_activity);
-
+        FrameLayout fLayout = (FrameLayout) findViewById(R.id.framelayout_mediaplayer);
         // Only create new fragments when there is no previously saved state
         if(savedInstanceState == null) {
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
+           fragmentManager = getSupportFragmentManager();
 
-
-            ExoPlayerFragment playerFragment = new ExoPlayerFragment();
-            fragmentManager.beginTransaction()
-                    .add(R.id.framelayout_mediaplayer, playerFragment)
-                    .commit();
-
-            StepDetailsFragment stepsFragment = new StepDetailsFragment();
+            stepsFragment = new StepDetailsFragment();
 
             StepsModel steps=null;
 
@@ -78,11 +79,26 @@ public class StepDetailsActivity extends AppCompatActivity {
                     .commit();
 
 
-            StepsBrowserFragment stepsBrowserFragment = new StepsBrowserFragment();
-            stepsBrowserFragment.setData(mRecipeId,mStepId,mStepsTotal);
+            playerFragment = new ExoPlayerFragment();
+
+            if(steps.getVideoURL()!=null && !steps.getVideoURL().isEmpty())
+                playerFragment.setUrl(steps.getVideoURL());
+            else
+                fLayout.setVisibility(View.GONE);
+            fragmentManager.beginTransaction()
+                    .add(R.id.framelayout_mediaplayer, playerFragment)
+                    .commit();
+
+
+
+
+            stepsBrowserFragment = new StepsBrowserFragment();
+
             fragmentManager.beginTransaction()
                     .add(R.id.framelayout_steps_browser, stepsBrowserFragment)
                     .commit();
+
+            stepsBrowserFragment.setData(mRecipeId,mStepId,mStepsTotal);
 
 
         }
@@ -90,8 +106,19 @@ public class StepDetailsActivity extends AppCompatActivity {
 
     }
 
+    void refreshFragments(){
+        Intent intent = new Intent(this,StepDetailsActivity.class);
+        intent.putExtra(StepsModel.ID,mRecipeId);
+        intent.putExtra(StepsModel.STEP_ID,mStepId);
+        intent.putExtra(StepsModel.TOTAL_STEPS,mStepsTotal);
+        startActivity(intent);
+        this.finish();
+
+    }
 
 
-
+    void changeStep (int step){
+        mStepId = step;
+    }
 
 }
