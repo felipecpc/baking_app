@@ -3,7 +3,6 @@ package android.example.com.bakingapp.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
 import android.example.com.bakingapp.model.IngredientsModel;
 import android.example.com.bakingapp.model.RecipeModel;
 import android.example.com.bakingapp.model.StepsModel;
@@ -50,6 +49,7 @@ public class DatabaseHelper {
             List<StepsModel> stepsData = recipeModel.getSteps();
             for (StepsModel steps : stepsData) {
                 ContentValues cv2 = new ContentValues();
+                cv2.put(BakingContract.StepsEntry.COLUMN_STEP_ID, steps.getId());
                 cv2.put(BakingContract.StepsEntry.COLUMN_RECIPE_ID, recipeModel.getId());
                 cv2.put(BakingContract.StepsEntry.COLUMN_FULL_DESCRIPTION, steps.getDescription());
                 cv2.put(BakingContract.StepsEntry.COLUMN_DESCRIPTION, steps.getShortDescription());
@@ -85,7 +85,7 @@ public class DatabaseHelper {
         RecipeModel recipeModel = new RecipeModel();
         ArrayList<IngredientsModel> ingredientsList = new ArrayList<>();
         ArrayList<StepsModel> stepList = new ArrayList<>();
-        Cursor cursor = mContext.getContentResolver().query(BakingContract.IngredientsEntry.buildWeatherUriWithID(String.valueOf(id)),null, null, null, null);
+        Cursor cursor = mContext.getContentResolver().query(BakingContract.IngredientsEntry.buildRecipeIgredientUriWithID(String.valueOf(id)),null, null, null, null);
         Log.d(TAG,"Cursor " + cursor.getCount());
 
         if (cursor!=null) {
@@ -98,11 +98,12 @@ public class DatabaseHelper {
             }
         }
 
-        Cursor cursor2 = mContext.getContentResolver().query(BakingContract.StepsEntry.buildWeatherUriWithID(String.valueOf(id)),null, null, null, null);
+        Cursor cursor2 = mContext.getContentResolver().query(BakingContract.StepsEntry.buildRecipeStepsUriWithID(String.valueOf(id)),null, null, null, null);
         Log.d(TAG,"Cursor2 " + cursor2.getCount());
         if (cursor2!=null) {
             while (cursor2.moveToNext()) {
-                StepsModel stepsModel = new StepsModel(0,
+                StepsModel stepsModel = new StepsModel(
+                        cursor2.getInt(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_STEP_ID)),
                         cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_DESCRIPTION)),
                         cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_FULL_DESCRIPTION)),
                         cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_THUMBNAIL)),
@@ -116,6 +117,27 @@ public class DatabaseHelper {
         recipeModel.setSteps(stepList);
         return recipeModel;
     }
+
+    public StepsModel getRecipeStep(int recipeId,int stepId){
+        Log.d(TAG, "Query for recipe id = " + recipeId + " Step id=" + stepId);
+        Cursor cursor2 = mContext.getContentResolver().query(BakingContract.StepsEntry.buildRecipeSpecificStepUriWithID(String.valueOf(recipeId),String.valueOf(stepId)),null, null, null, null);
+        Log.d(TAG,"getRecipeStep Achou >> " + cursor2.getCount());
+        StepsModel stepsModel = null;
+        if (cursor2!=null && cursor2.getCount()>0) {
+            cursor2.moveToNext();
+            stepsModel = new StepsModel(
+                        Integer.parseInt(cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_STEP_ID))),
+                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_DESCRIPTION)),
+                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_FULL_DESCRIPTION)),
+                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_THUMBNAIL)),
+                        cursor2.getString(cursor2.getColumnIndex(BakingContract.StepsEntry.COLUMN_VIDEO)));
+
+        }
+
+        return stepsModel;
+
+    }
+
 
     public void removeRecipe(RecipeModel recipeModel){
 

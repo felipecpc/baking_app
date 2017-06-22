@@ -68,6 +68,11 @@ public class ExoPlayerFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        releasePlayer();
+    }
 
     /**
      * Release ExoPlayer.

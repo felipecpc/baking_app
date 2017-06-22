@@ -28,30 +28,24 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
 
     private static String TAG = RecipeInstructionsActivity.class.getSimpleName();
     private RecipeModel mRecipeModel = null;
-
+    private int mId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
         super.onCreate(savedInstanceState);
 
-
         if(getIntent().hasExtra(StepsModel.ID)){
-            Log.d(TAG,"This is the ID " + getIntent().getIntExtra(StepsModel.ID,0));
-            int id = getIntent().getIntExtra(StepsModel.ID,0);
 
+            mId = getIntent().getIntExtra(StepsModel.ID,0);
+            Log.d(TAG,"This is the ID " + mId);
             DatabaseHelper test = new DatabaseHelper(this);
-            mRecipeModel = test.getRecipeDetails(id);
+            mRecipeModel = test.getRecipeDetails(mId);
 
         }
 
         setContentView(R.layout.activity_recipe_instructions);
 
-
     }
-
-
 
 
     public RecipeModel getRecipeDetails(){
@@ -60,9 +54,11 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
 
     @Override
     public void itemSelected(int selected) {
-        Log.d(TAG,"Item clicked position " + selected);
+        Log.d(TAG,"Item clicked position " + selected + " mID= "+mId);
         Intent intent = new Intent(this,StepDetailsActivity.class);
-        intent.putExtra(StepsModel.DATA,mRecipeModel.getSteps().get(selected));
+        intent.putExtra(StepsModel.ID,mId);
+        intent.putExtra(StepsModel.STEP_ID,mRecipeModel.getSteps().get(selected-1).getId());
+        intent.putExtra(StepsModel.TOTAL_STEPS,mRecipeModel.getSteps().size());
         startActivity(intent);
     }
 }

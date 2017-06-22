@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 /**
  * Created by felipe on 17/06/17.
@@ -16,6 +17,7 @@ import android.support.annotation.NonNull;
 
 public class BakingContentProvider extends ContentProvider{
 
+    public static final String TAG = BakingContentProvider.class.getSimpleName();
     public static final int CODE_RECIPE = 100;
 
     public static final int CODE_INGREDIENTS = 200;
@@ -23,7 +25,7 @@ public class BakingContentProvider extends ContentProvider{
 
     public static final int CODE_STEPS = 300;
     public static final int CODE_STEPS_ID = 301;
-
+    public static final int CODE_STEPS_ALL = 302;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private BakingAppDBHelper mOpenHelper;
@@ -39,7 +41,8 @@ public class BakingContentProvider extends ContentProvider{
         matcher.addURI(authority, BakingContract.PATH_STEPS, CODE_STEPS);
 
         matcher.addURI(authority, BakingContract.PATH_INGREDIENTS + "/#", CODE_INGREDIENTS_ID);
-        matcher.addURI(authority, BakingContract.PATH_STEPS + "/#", CODE_STEPS_ID);
+        matcher.addURI(authority, BakingContract.PATH_STEPS + "/#", CODE_STEPS_ALL);
+        matcher.addURI(authority, BakingContract.PATH_STEPS + "/#/step/#", CODE_STEPS_ID);
 
         return matcher;
     }
@@ -60,6 +63,8 @@ public class BakingContentProvider extends ContentProvider{
 
         Cursor cursor;
 
+        Log.d(TAG,"URI = " + uri);
+
         switch (sUriMatcher.match(uri)) {
 
             case CODE_INGREDIENTS_ID: {
@@ -77,7 +82,7 @@ public class BakingContentProvider extends ContentProvider{
                 break;
             }
 
-            case CODE_STEPS_ID: {
+            case CODE_STEPS_ALL: {
 
                 String id = uri.getPathSegments().get(1);
                 cursor = mOpenHelper.getReadableDatabase().query(
@@ -85,6 +90,22 @@ public class BakingContentProvider extends ContentProvider{
                         null,
                         BakingContract.StepsEntry.COLUMN_RECIPE_ID + "=?",
                         new String[]{id},
+                        null,
+                        null,
+                        null,
+                        null);
+                break;
+            }
+
+            case CODE_STEPS_ID: {
+
+                String recipeId = uri.getPathSegments().get(1);
+                String stepId = uri.getPathSegments().get(3);
+                cursor = mOpenHelper.getReadableDatabase().query(
+                        BakingContract.StepsEntry.TABLE_NAME,
+                        null,
+                        BakingContract.StepsEntry.COLUMN_RECIPE_ID + " = ? AND " + BakingContract.StepsEntry.COLUMN_STEP_ID + " = ?",
+                        new String[]{recipeId,stepId},
                         null,
                         null,
                         null,

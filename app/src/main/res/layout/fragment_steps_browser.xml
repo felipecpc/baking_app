@@ -14,23 +14,22 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
-        <TextView
-            android:id="@+id/textView_previous_step"
+        <Button
+            android:id="@+id/button_previous_step"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:layout_weight="1"
             tools:text="Previous"
             android:text="@string/previous"
             />
 
-        <TextView
-            android:id="@+id/textView_next_step"
+        <Button
+            android:id="@+id/button_next_step"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:gravity="right"
             tools:text="Next"
             android:text="@string/next"/>
 

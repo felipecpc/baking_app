@@ -36,7 +36,7 @@ public class BakingContract {
         public static final String COLUMN_SERVING= "serving";
         public static final String COLUMN_IMAGE = "image";
 
-        public static Uri buildWeatherUriWithID(String id) {
+        public static Uri buildRecipeUriWithID(String id) {
             return CONTENT_URI.buildUpon()
                     .appendPath(id)
                     .build();
@@ -59,7 +59,7 @@ public class BakingContract {
         public static final String COLUMN_MEASURE= "measure";
         public static final String COLUMN_INGREDIENT = "ingredient";
 
-        public static Uri buildWeatherUriWithID(String id) {
+        public static Uri buildRecipeIgredientUriWithID(String id) {
             return CONTENT_URI.buildUpon()
                     .appendPath(id)
                     .build();
@@ -77,6 +77,7 @@ public class BakingContract {
 
         public static final String TABLE_NAME = "steps";
         public static final String COLUMN_ID = "_id";
+        public static final String COLUMN_STEP_ID = "step_id";
         public static final String COLUMN_RECIPE_ID = "recipe_id";
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_FULL_DESCRIPTION= "full_description";
@@ -84,9 +85,17 @@ public class BakingContract {
         public static final String COLUMN_THUMBNAIL= "thumbnail";
 
 
-        public static Uri buildWeatherUriWithID(String id) {
+        public static Uri buildRecipeStepsUriWithID(String id) {
             return CONTENT_URI.buildUpon()
                     .appendPath(id)
+                    .build();
+        }
+
+        public static Uri buildRecipeSpecificStepUriWithID(String recipeId, String stepId) {
+            return CONTENT_URI.buildUpon()
+                    .appendPath(recipeId)
+                    .appendEncodedPath("step")
+                    .appendPath(stepId)
                     .build();
         }
 

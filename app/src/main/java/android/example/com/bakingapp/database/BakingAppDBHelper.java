@@ -40,6 +40,7 @@ public class BakingAppDBHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_STEPS_TABLE = "CREATE TABLE " + BakingContract.StepsEntry.TABLE_NAME + " (" +
                 BakingContract.StepsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 BakingContract.StepsEntry.COLUMN_RECIPE_ID + " INTEGER NOT NULL, " +
+                BakingContract.StepsEntry.COLUMN_STEP_ID + " INTEGER NOT NULL, " +
                 BakingContract.StepsEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
                 BakingContract.StepsEntry.COLUMN_FULL_DESCRIPTION + " TEXT NOT NULL, " +
                 BakingContract.StepsEntry.COLUMN_THUMBNAIL + " TEXT NOT NULL, " +

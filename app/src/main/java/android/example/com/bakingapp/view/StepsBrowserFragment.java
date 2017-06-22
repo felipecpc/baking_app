@@ -21,7 +21,11 @@ public class StepsBrowserFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_steps_browser, container, false);
+
         return rootView;
     }
 
+    public void setData(int mRecipeId, int mStepId, int mStepsTotal) {
+
+    }
 }

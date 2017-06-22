@@ -31,7 +31,7 @@ public class StepDetailsFragment extends Fragment {
         tvStepDescription=(TextView) rootView.findViewById(R.id.textView_step_description);
 
         if(mStepModel!=null) {
-            tvStepTitle.setText("Step x");
+            tvStepTitle.setText("Step " +mStepModel.getId());
             tvStepShortDescription.setText(mStepModel.getShortDescription());
             tvStepDescription.setText(mStepModel.getDescription());
         }

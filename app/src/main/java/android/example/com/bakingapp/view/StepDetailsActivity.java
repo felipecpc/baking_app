@@ -1,6 +1,7 @@
 package android.example.com.bakingapp.view;
 
 
+import android.example.com.bakingapp.database.DatabaseHelper;
 import android.example.com.bakingapp.model.StepsModel;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +33,10 @@ import com.google.android.exoplayer2.util.Util;
 public class StepDetailsActivity extends AppCompatActivity {
 
 
+    int mStepId;
+    int mRecipeId;
+    int mStepsTotal;
+
     public StepDetailsActivity() {
         // Required empty public constructor
     }
@@ -42,20 +47,13 @@ public class StepDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.step_details_activity);
 
-
-
-
         // Only create new fragments when there is no previously saved state
         if(savedInstanceState == null) {
 
-            // Retrieve list index values that were sent through an intent; use them to display the desired Android-Me body part image
-            // Use setListindex(int index) to set the list index for all BodyPartFragments
-
-            // Create a new head BodyPartFragment
-            ExoPlayerFragment playerFragment = new ExoPlayerFragment();
-
             FragmentManager fragmentManager = getSupportFragmentManager();
 
+
+            ExoPlayerFragment playerFragment = new ExoPlayerFragment();
             fragmentManager.beginTransaction()
                     .add(R.id.framelayout_mediaplayer, playerFragment)
                     .commit();
@@ -63,21 +61,25 @@ public class StepDetailsActivity extends AppCompatActivity {
             StepDetailsFragment stepsFragment = new StepDetailsFragment();
 
             StepsModel steps=null;
-            if(getIntent().hasExtra(StepsModel.DATA)){
-                steps = getIntent().getParcelableExtra(StepsModel.DATA);
+
+            if(getIntent().hasExtra(StepsModel.ID)){
+                mRecipeId = getIntent().getIntExtra(StepsModel.ID,0);
+                mStepId = getIntent().getIntExtra(StepsModel.STEP_ID,0);
+                mStepsTotal = getIntent().getIntExtra(StepsModel.TOTAL_STEPS,0);
+                DatabaseHelper test = new DatabaseHelper(this);
+                steps = test.getRecipeStep(mRecipeId,mStepId);
             }
 
             stepsFragment.setData(steps);
 
-            //FragmentManager fmStepDetails = getSupportFragmentManager();
 
             fragmentManager.beginTransaction()
                     .add(R.id.framelayout_steps_details, stepsFragment)
                     .commit();
 
 
-            //FragmentManager fmStepBrowser = getSupportFragmentManager();
             StepsBrowserFragment stepsBrowserFragment = new StepsBrowserFragment();
+            stepsBrowserFragment.setData(mRecipeId,mStepId,mStepsTotal);
             fragmentManager.beginTransaction()
                     .add(R.id.framelayout_steps_browser, stepsBrowserFragment)
                     .commit();
