@@ -51,24 +51,7 @@ public class RecipeMasterListFragment extends Fragment{
         mRecipeRecyclerViewList.setAdapter(mRecipeDetailsAdapter);
 
 
-        //Creating some fake data
-        RecipeModel rfake = masterActivity.getRecipeDetails();
-
-/*        StepsModel sFake = new StepsModel();
-        sFake.setDescription("Step 1 - Porra!!");
-        List<StepsModel> listStepsModel = new ArrayList<StepsModel>();
-        listStepsModel.add(sFake);
-
-        IngredientsModel iFake = new IngredientsModel();
-        iFake.setIngredient("Ingredients");
-        List<IngredientsModel> listIngredientsModel = new ArrayList<IngredientsModel>();
-        listIngredientsModel.add(iFake);
-
-
-        rfake.setSteps(listStepsModel);
-        rfake.setIngredients(listIngredientsModel);*/
-
-        mRecipeDetailsAdapter.setData(rfake,mCallback);
+        mRecipeDetailsAdapter.setData(masterActivity.getRecipeDetails(),mCallback);
 
         return rootView;
 

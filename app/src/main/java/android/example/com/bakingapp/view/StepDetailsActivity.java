@@ -106,7 +106,8 @@ public class StepDetailsActivity extends AppCompatActivity {
 
     }
 
-    void refreshFragments(){
+    void refreshFragments(int stepId){
+        mStepId = stepId;
         Intent intent = new Intent(this,StepDetailsActivity.class);
         intent.putExtra(StepsModel.ID,mRecipeId);
         intent.putExtra(StepsModel.STEP_ID,mStepId);
@@ -117,8 +118,5 @@ public class StepDetailsActivity extends AppCompatActivity {
     }
 
 
-    void changeStep (int step){
-        mStepId = step;
-    }
 
 }

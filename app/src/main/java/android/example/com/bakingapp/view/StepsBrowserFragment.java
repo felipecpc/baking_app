@@ -27,6 +27,8 @@ public class StepsBrowserFragment extends Fragment {
     int mRecipeId;
     int mStepsTotal;
 
+    boolean dualPane=false;
+
 
     @Nullable
     @Override
@@ -38,24 +40,20 @@ public class StepsBrowserFragment extends Fragment {
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StepDetailsActivity sDetailsActivity = (StepDetailsActivity) getActivity();
                 if (mStepId<mStepsTotal){
                     mStepId++;
-                    sDetailsActivity.changeStep(mStepId);
                 }
-                sDetailsActivity.refreshFragments();
+                refreshFragments(mStepId);
             }
         });
 
         buttonPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StepDetailsActivity sDetailsActivity = (StepDetailsActivity) getActivity();
                 if (mStepId>0){
                     mStepId--;
-                    sDetailsActivity.changeStep(mStepId);
                 }
-                sDetailsActivity.refreshFragments();
+                refreshFragments(mStepId);
             }
         });
 
@@ -75,9 +73,25 @@ public class StepsBrowserFragment extends Fragment {
         return rootView;
     }
 
+
+    private void refreshFragments(int mStepId){
+
+        if (dualPane){
+            RecipeInstructionsActivity sIntructionActivity = (RecipeInstructionsActivity) getActivity();
+            sIntructionActivity.refreshFragments(mStepId);
+        }else{
+            StepDetailsActivity sDetailsActivity = (StepDetailsActivity) getActivity();
+            sDetailsActivity.refreshFragments(mStepId);
+        }
+    }
+
     public void setData(int recipeId, int stepId, int stepsTotal) {
         mStepId=stepId;
         mRecipeId=recipeId;
         mStepsTotal=stepsTotal;
+    }
+
+    public void setDualPane(boolean dualPane) {
+        this.dualPane = dualPane;
     }
 }
