@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
 
         mRecipeRecyclerView.setHasFixedSize(true);
 
+
         mRecipeAdapter = new RecipeAdapter(this);
         mRecipeRecyclerView.setAdapter(mRecipeAdapter);
 
@@ -71,7 +72,13 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
                                     dialog.dismiss();
                                 }
                             });
-                    alertDialog.show();
+
+                    mRecipeList = mDBHelper.getRecipes();
+
+                    if(mRecipeList.isEmpty())
+                        alertDialog.show();
+                    else
+                        mRecipeAdapter.setRecipes(mRecipeList);
                 }else{
                     ArrayList<RecipeModel> recipes = (ArrayList<RecipeModel>) data;
                     for(RecipeModel recipe: recipes) {

@@ -97,7 +97,7 @@ public class StepsBrowserFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+
         outState.putInt(STEP,mStepId);
         outState.putInt(RECIPE,mRecipeId);
         outState.putInt(TOTAL,mStepsTotal);

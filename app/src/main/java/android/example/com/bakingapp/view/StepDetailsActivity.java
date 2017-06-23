@@ -38,11 +38,17 @@ public class StepDetailsActivity extends AppCompatActivity {
     int mStepId;
     int mRecipeId;
     int mStepsTotal;
+    StepsModel steps=null;
 
     StepDetailsFragment stepsFragment;
     StepsBrowserFragment stepsBrowserFragment;
     ExoPlayerFragment playerFragment;
     FragmentManager fragmentManager;
+
+    private String STEP = "STEP";
+    private String RECIPE = "RECIPE";
+    private String TOTAL = "TOTAL";
+    private String STEP_MODEL = "STEP_MODEL";
 
     public StepDetailsActivity() {
         // Required empty public constructor
@@ -54,14 +60,27 @@ public class StepDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.step_details_activity);
         FrameLayout fLayout = (FrameLayout) findViewById(R.id.framelayout_mediaplayer);
+
+
         // Only create new fragments when there is no previously saved state
+
+
+        if(savedInstanceState!=null){
+            mStepId=savedInstanceState.getInt(STEP);
+            mRecipeId=savedInstanceState.getInt(RECIPE);
+            mStepsTotal=savedInstanceState.getInt(TOTAL);
+            steps = savedInstanceState.getParcelable(STEP_MODEL);
+
+        }
+
+
         if(savedInstanceState == null) {
 
            fragmentManager = getSupportFragmentManager();
 
             stepsFragment = new StepDetailsFragment();
 
-            StepsModel steps=null;
+
 
             if(getIntent().hasExtra(StepsModel.ID)){
                 mRecipeId = getIntent().getIntExtra(StepsModel.ID,0);
@@ -84,8 +103,7 @@ public class StepDetailsActivity extends AppCompatActivity {
 
             if(steps.getVideoURL()!=null && !steps.getVideoURL().isEmpty())
                 playerFragment.setUrl(steps.getVideoURL());
-            else
-                fLayout.setVisibility(View.GONE);
+
             fragmentManager.beginTransaction()
                     .add(R.id.framelayout_mediaplayer, playerFragment)
                     .commit();
@@ -104,8 +122,15 @@ public class StepDetailsActivity extends AppCompatActivity {
 
         }
 
+        if(steps.getVideoURL()!=null && !steps.getVideoURL().isEmpty()) {
+            fLayout.setVisibility(View.VISIBLE);
+        }
+        else {
+            fLayout.setVisibility(View.GONE);
+        }
 
     }
+
 
     void refreshFragments(int stepId){
         mStepId = stepId;
@@ -118,6 +143,12 @@ public class StepDetailsActivity extends AppCompatActivity {
 
     }
 
-
-
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(STEP,mStepId);
+        outState.putInt(RECIPE,mRecipeId);
+        outState.putInt(TOTAL,mStepsTotal);
+        outState.putParcelable(STEP_MODEL,steps);
+    }
 }
