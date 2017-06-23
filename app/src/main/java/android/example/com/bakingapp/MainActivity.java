@@ -14,6 +14,7 @@ import android.example.com.bakingapp.view.RecipeInstructionsActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -39,8 +40,13 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
 
         mRecipeRecyclerView = (RecyclerView) findViewById(R.id.rv_recipes);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecipeRecyclerView.setLayoutManager(layoutManager);
+        if(findViewById(R.id.framelayout_tablet)==null) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            mRecipeRecyclerView.setLayoutManager(layoutManager);
+        }else{
+            GridLayoutManager layoutManager = new GridLayoutManager(this,2);
+            mRecipeRecyclerView.setLayoutManager(layoutManager);
+        }
 
         mRecipeRecyclerView.setHasFixedSize(true);
 
