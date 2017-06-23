@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 public class StepDetailsFragment extends Fragment {
 
+    private static final String STEP_DETAILS = "STEP_DETAILS" ;
     TextView tvStepTitle;
     TextView tvStepShortDescription;
     TextView tvStepDescription;
@@ -30,6 +31,10 @@ public class StepDetailsFragment extends Fragment {
         tvStepShortDescription= (TextView) rootView.findViewById(R.id.textView_step_short_description);
         tvStepDescription=(TextView) rootView.findViewById(R.id.textView_step_description);
 
+        if(savedInstanceState!=null){
+            mStepModel = (StepsModel) savedInstanceState.getParcelable(STEP_DETAILS);
+        }
+
         if(mStepModel!=null) {
             tvStepTitle.setText("Step " +(mStepModel.getId()+1));
             tvStepShortDescription.setText(mStepModel.getShortDescription());
@@ -38,6 +43,12 @@ public class StepDetailsFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(STEP_DETAILS,mStepModel);
     }
 
     public void setData(StepsModel stepModel){

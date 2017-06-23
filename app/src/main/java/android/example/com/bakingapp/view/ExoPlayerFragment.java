@@ -34,11 +34,14 @@ public class ExoPlayerFragment extends Fragment {
     private SimpleExoPlayerView mPlayerView;
     private SimpleExoPlayer mExoPlayer;
     private String mVideoURL;
+    private String VIDEO_URL = "VIDEO_URL";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_exo_player, container, false);
 
+        if(savedInstanceState!=null)
+            mVideoURL = (String) savedInstanceState.get(VIDEO_URL);
 
         mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.simpleExoPlayerView);
 
@@ -48,6 +51,11 @@ public class ExoPlayerFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(VIDEO_URL,mVideoURL);
+    }
 
     /**
      * Initialize ExoPlayer.
@@ -70,9 +78,15 @@ public class ExoPlayerFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        releasePlayer();
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
-        releasePlayer();
+
     }
 
     /**

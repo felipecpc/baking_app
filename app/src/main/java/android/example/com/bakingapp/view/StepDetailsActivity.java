@@ -68,7 +68,8 @@ public class StepDetailsActivity extends AppCompatActivity {
                 mStepId = getIntent().getIntExtra(StepsModel.STEP_ID,0);
                 mStepsTotal = getIntent().getIntExtra(StepsModel.TOTAL_STEPS,0);
                 DatabaseHelper test = new DatabaseHelper(this);
-                steps = test.getRecipeStep(mRecipeId,mStepId);
+                steps = test.getRecipeStep(mRecipeId, mStepId);
+
             }
 
             stepsFragment.setData(steps);

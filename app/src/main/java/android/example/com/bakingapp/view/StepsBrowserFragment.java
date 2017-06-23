@@ -26,9 +26,12 @@ public class StepsBrowserFragment extends Fragment {
     int mStepId;
     int mRecipeId;
     int mStepsTotal;
-
     boolean dualPane=false;
 
+    private String STEP = "STEP";
+    private String RECIPE = "RECIPE";
+    private String TOTAL = "TOTAL";
+    private String DUAL_PANE = "DUAL_PANE";
 
     @Nullable
     @Override
@@ -36,6 +39,13 @@ public class StepsBrowserFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_steps_browser, container, false);
         buttonNext = (Button) rootView.findViewById(R.id.button_next_step);
         buttonPrevious = (Button) rootView.findViewById(R.id.button_previous_step);
+
+        if(savedInstanceState!=null){
+            mStepId=savedInstanceState.getInt(STEP);
+            mRecipeId=savedInstanceState.getInt(RECIPE);
+            mStepsTotal=savedInstanceState.getInt(TOTAL);
+            dualPane=savedInstanceState.getBoolean(DUAL_PANE);
+        }
 
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +93,16 @@ public class StepsBrowserFragment extends Fragment {
             StepDetailsActivity sDetailsActivity = (StepDetailsActivity) getActivity();
             sDetailsActivity.refreshFragments(mStepId);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(STEP,mStepId);
+        outState.putInt(RECIPE,mRecipeId);
+        outState.putInt(TOTAL,mStepsTotal);
+        outState.putBoolean(DUAL_PANE,dualPane);
+
     }
 
     public void setData(int recipeId, int stepId, int stepsTotal) {
