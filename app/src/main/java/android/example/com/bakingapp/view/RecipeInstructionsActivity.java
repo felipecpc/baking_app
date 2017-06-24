@@ -32,20 +32,29 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
 
     private static String TAG = RecipeInstructionsActivity.class.getSimpleName();
     private RecipeModel mRecipeModel = null;
-    private int mId;
+
 
     StepDetailsFragment stepsFragment;
     StepsBrowserFragment stepsBrowserFragment;
     ExoPlayerFragment playerFragment;
     FragmentManager fragmentManager;
     FrameLayout fLayout;
+
+    private int mId;
     int mStepId;
     int mStepsTotal;
+
+
+    private String STEP = "STEP";
+    private String RECIPE = "RECIPE";
+    private String TOTAL = "TOTAL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+
 
         if(getIntent().hasExtra(StepsModel.ID)){
 
@@ -62,10 +71,11 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
         // Determine if you're creating a two-pane or single-pane display
         if(findViewById(R.id.linearLayout_recipe_instructions) != null) {
             fLayout = (FrameLayout) findViewById(R.id.framelayout_mediaplayer);
+            fragmentManager = getSupportFragmentManager();
             // Only create new fragments when there is no previously saved state
             if (savedInstanceState == null) {
 
-                fragmentManager = getSupportFragmentManager();
+
 
                 stepsFragment = new StepDetailsFragment();
 
@@ -103,8 +113,20 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
                 stepsBrowserFragment.setData(mId, mStepId, mStepsTotal);
 
 
+            }else{
+                mStepId=savedInstanceState.getInt(STEP);
+                mStepsTotal=savedInstanceState.getInt(TOTAL);
+                refreshFragments(mStepId);
             }
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(RECIPE,mId);
+        outState.putInt(STEP,mStepId);
+        outState.putInt(TOTAL,mStepsTotal);
     }
 
     public void refreshFragments(int step){
