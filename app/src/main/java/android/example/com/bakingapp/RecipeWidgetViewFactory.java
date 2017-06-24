@@ -58,7 +58,6 @@ public class RecipeWidgetViewFactory implements RemoteViewsService.RemoteViewsFa
         row.setTextViewText(R.id.textView_recipe, items.get(position).getName());
 
 
-
         Intent i=new Intent();
         i.putExtra(StepsModel.ID,  items.get(position).getId());
         row.setOnClickFillInIntent(R.id.textView_recipe, i);
