@@ -149,7 +149,7 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
 
         playerFragment = new ExoPlayerFragment();
 
-        if (steps.getVideoURL() != null && !steps.getVideoURL().isEmpty()) {
+        if (steps!=null && steps.getVideoURL() != null && !steps.getVideoURL().isEmpty()) {
             playerFragment.setUrl(steps.getVideoURL());
             fLayout.setVisibility(View.VISIBLE);
         }
