@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView_recipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Recipe" />
+
+    <TextView
+        android:id="@+id/textView_ingredients_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/margin_small"
+        tools:text="Ingredients" />
+
+</LinearLayout>

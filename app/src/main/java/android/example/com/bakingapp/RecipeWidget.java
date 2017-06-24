@@ -1,9 +1,13 @@
 package android.example.com.bakingapp;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.example.com.bakingapp.database.DatabaseHelper;
+import android.example.com.bakingapp.view.RecipeInstructionsActivity;
+import android.net.Uri;
 import android.widget.RemoteViews;
 
 /**
@@ -18,8 +22,21 @@ public class RecipeWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget);
 
-        final DatabaseHelper mDBHelper = new DatabaseHelper(context);
-        mDBHelper.getRecipes();
+        Intent svcIntent=new Intent(context, WidgetService.class);
+
+        svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
+
+        views.setRemoteAdapter(appWidgetId, R.id.appwidget_recipe_listview,
+                svcIntent);
+
+        Intent clickIntent=new Intent(context, RecipeInstructionsActivity.class);
+        PendingIntent clickPI=PendingIntent
+                .getActivity(context, 0,
+                        clickIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+        views.setPendingIntentTemplate(R.id.appwidget_recipe_listview, clickPI);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

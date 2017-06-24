@@ -71,6 +71,7 @@ public class DatabaseHelper {
         if (cursor!=null) {
             while (cursor.moveToNext()) {
                 RecipeModel recipeModel = new RecipeModel();
+                recipeModel.setId(cursor.getInt(cursor.getColumnIndex(BakingContract.RecipeEntry.COLUMN_ID)));
                 recipeModel.setName(cursor.getString(cursor.getColumnIndex(BakingContract.RecipeEntry.COLUMN_NAME)));
                 recipeModel.setImage(cursor.getString(cursor.getColumnIndex(BakingContract.RecipeEntry.COLUMN_IMAGE)));
                 recipeModel.setServings(cursor.getString(cursor.getColumnIndex(BakingContract.RecipeEntry.COLUMN_SERVING)));
