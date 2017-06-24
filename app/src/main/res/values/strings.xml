@@ -11,4 +11,6 @@
     <string name="next">Next</string>
     <string name="step_not_available">Not Available</string>
     <string name="step_missing">Sorry but this step is missing on the download recipe.</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

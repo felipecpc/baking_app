@@ -94,10 +94,17 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
 
                 playerFragment = new ExoPlayerFragment();
 
-                if (steps.getVideoURL() != null && !steps.getVideoURL().isEmpty())
-                    playerFragment.setUrl(steps.getVideoURL());
-                else
-                    fLayout.setVisibility(View.GONE);
+                if(steps!=null) {
+                    if (steps.getVideoURL() != null && !steps.getVideoURL().isEmpty()) {
+                        playerFragment.setUrl(steps.getVideoURL());
+                        fLayout.setVisibility(View.VISIBLE);
+                    } else if (steps.getThumbnailURL() != null && !steps.getThumbnailURL().isEmpty()){
+                        playerFragment.setUrl(steps.getThumbnailURL());
+                        fLayout.setVisibility(View.VISIBLE);
+                    }else{
+                        fLayout.setVisibility(View.GONE);
+                    }
+                }
                 fragmentManager.beginTransaction()
                         .add(R.id.framelayout_mediaplayer, playerFragment)
                         .commit();
@@ -149,12 +156,16 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
 
         playerFragment = new ExoPlayerFragment();
 
-        if (steps!=null && steps.getVideoURL() != null && !steps.getVideoURL().isEmpty()) {
-            playerFragment.setUrl(steps.getVideoURL());
-            fLayout.setVisibility(View.VISIBLE);
-        }
-        else {
-            fLayout.setVisibility(View.GONE);
+        if(steps!=null) {
+            if (steps.getVideoURL() != null && !steps.getVideoURL().isEmpty()) {
+                playerFragment.setUrl(steps.getVideoURL());
+                fLayout.setVisibility(View.VISIBLE);
+            } else if (steps.getThumbnailURL() != null && !steps.getThumbnailURL().isEmpty()){
+                playerFragment.setUrl(steps.getThumbnailURL());
+                fLayout.setVisibility(View.VISIBLE);
+            }else{
+                fLayout.setVisibility(View.GONE);
+            }
         }
         fragmentManager.beginTransaction()
                 .replace(R.id.framelayout_mediaplayer, playerFragment)

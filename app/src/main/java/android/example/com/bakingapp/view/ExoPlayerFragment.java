@@ -50,12 +50,19 @@ public class ExoPlayerFragment extends Fragment {
 
         mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.simpleExoPlayerView);
 
+
+
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         if(mVideoURL!=null) {
             initializePlayer(Uri.parse(mVideoURL));
             mExoPlayer.seekTo(mVideoPosition);
         }
 
-        return rootView;
     }
 
     @Override
@@ -96,10 +103,14 @@ public class ExoPlayerFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-
+        releasePlayer();
     }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        releasePlayer();
+    }
 
     /**
      * Release ExoPlayer.

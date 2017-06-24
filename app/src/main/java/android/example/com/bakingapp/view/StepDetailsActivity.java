@@ -101,8 +101,13 @@ public class StepDetailsActivity extends AppCompatActivity {
 
             playerFragment = new ExoPlayerFragment();
 
-            if(steps!=null && steps.getVideoURL()!=null && !steps.getVideoURL().isEmpty())
-                playerFragment.setUrl(steps.getVideoURL());
+            if(steps!=null) {
+                if (steps.getVideoURL() != null && !steps.getVideoURL().isEmpty()) {
+                    playerFragment.setUrl(steps.getVideoURL());
+                }else if(steps.getThumbnailURL() != null && !steps.getThumbnailURL().isEmpty()){
+                    playerFragment.setUrl(steps.getThumbnailURL());
+                }
+            }
 
             fragmentManager.beginTransaction()
                     .add(R.id.framelayout_mediaplayer, playerFragment)
@@ -121,11 +126,16 @@ public class StepDetailsActivity extends AppCompatActivity {
 
 
         }
-
-        if(steps!=null && steps.getVideoURL()!=null && !steps.getVideoURL().isEmpty()) {
-            fLayout.setVisibility(View.VISIBLE);
-        }
-        else {
+        if(steps!=null){
+            if(steps.getVideoURL()!=null && !steps.getVideoURL().isEmpty()) {
+                fLayout.setVisibility(View.VISIBLE);
+            }else if(steps.getThumbnailURL()!=null && !steps.getThumbnailURL().isEmpty()){
+                fLayout.setVisibility(View.VISIBLE);
+            }
+            else {
+                fLayout.setVisibility(View.GONE);
+            }
+        }else{
             fLayout.setVisibility(View.GONE);
         }
 
