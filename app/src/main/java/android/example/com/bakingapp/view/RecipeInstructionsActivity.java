@@ -81,8 +81,8 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
 
                 StepsModel steps = null;
 
-                    DatabaseHelper test = new DatabaseHelper(this);
-                    steps = test.getRecipeStep(mId, mStepId);
+                DatabaseHelper test = new DatabaseHelper(this);
+                steps = test.getRecipeStep(mId, mStepId);
 
                 stepsFragment.setData(steps);
 

@@ -39,6 +39,10 @@ public class StepDetailsFragment extends Fragment {
             tvStepTitle.setText("Step " +(mStepModel.getId()+1));
             tvStepShortDescription.setText(mStepModel.getShortDescription());
             tvStepDescription.setText(mStepModel.getDescription());
+        }else{
+            tvStepTitle.setText(getResources().getString(R.string.step_not_available));
+            tvStepShortDescription.setText(getResources().getString(R.string.step_not_available));
+            tvStepDescription.setText(getResources().getString(R.string.step_missing));
         }
 
 

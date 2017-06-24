@@ -101,7 +101,7 @@ public class StepDetailsActivity extends AppCompatActivity {
 
             playerFragment = new ExoPlayerFragment();
 
-            if(steps.getVideoURL()!=null && !steps.getVideoURL().isEmpty())
+            if(steps!=null && steps.getVideoURL()!=null && !steps.getVideoURL().isEmpty())
                 playerFragment.setUrl(steps.getVideoURL());
 
             fragmentManager.beginTransaction()
@@ -122,7 +122,7 @@ public class StepDetailsActivity extends AppCompatActivity {
 
         }
 
-        if(steps.getVideoURL()!=null && !steps.getVideoURL().isEmpty()) {
+        if(steps!=null && steps.getVideoURL()!=null && !steps.getVideoURL().isEmpty()) {
             fLayout.setVisibility(View.VISIBLE);
         }
         else {

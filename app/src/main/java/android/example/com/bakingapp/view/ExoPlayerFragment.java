@@ -31,22 +31,29 @@ import java.util.ArrayList;
 
 public class ExoPlayerFragment extends Fragment {
 
+
     private SimpleExoPlayerView mPlayerView;
     private SimpleExoPlayer mExoPlayer;
     private String mVideoURL;
+    private long mVideoPosition=0;
     private String VIDEO_URL = "VIDEO_URL";
+    private static final String VIDEO_POSITION = "VIDEO_POSITION";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_exo_player, container, false);
 
-        if(savedInstanceState!=null)
+        if(savedInstanceState!=null) {
             mVideoURL = (String) savedInstanceState.get(VIDEO_URL);
+            mVideoPosition = savedInstanceState.getLong(VIDEO_POSITION);
+        }
 
         mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.simpleExoPlayerView);
 
-        if(mVideoURL!=null)
+        if(mVideoURL!=null) {
             initializePlayer(Uri.parse(mVideoURL));
+            mExoPlayer.seekTo(mVideoPosition);
+        }
 
         return rootView;
     }
@@ -55,6 +62,7 @@ public class ExoPlayerFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(VIDEO_URL,mVideoURL);
+        outState.putLong(VIDEO_POSITION, mExoPlayer.getCurrentPosition());
     }
 
     /**
@@ -74,6 +82,7 @@ public class ExoPlayerFragment extends Fragment {
                     getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
             mExoPlayer.setPlayWhenReady(true);
+
         }
     }
 
@@ -88,6 +97,8 @@ public class ExoPlayerFragment extends Fragment {
         super.onStop();
 
     }
+
+
 
     /**
      * Release ExoPlayer.
