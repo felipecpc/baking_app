@@ -62,7 +62,8 @@ public class ExoPlayerFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(VIDEO_URL,mVideoURL);
-        outState.putLong(VIDEO_POSITION, mExoPlayer.getCurrentPosition());
+        if(mExoPlayer!=null)
+            outState.putLong(VIDEO_POSITION, mExoPlayer.getCurrentPosition());
     }
 
     /**
