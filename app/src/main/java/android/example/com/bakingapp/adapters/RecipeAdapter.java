@@ -18,10 +18,13 @@ import java.util.ArrayList;
  * Created by felipe on 13/06/17.
  */
 
-public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>  {
+public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
     ArrayList<RecipeModel> mRecipeItems = new ArrayList<RecipeModel>();
     ItemSelectedInterface mRecipeSelectedInterface;
+
+    public static final int VIEW_TYPE_EMPTY = 0;
+    public static final int VIEW_NORMAL = 1;
 
     public RecipeAdapter(ItemSelectedInterface selectedInterface){
         mRecipeSelectedInterface = selectedInterface;
@@ -29,32 +32,45 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
 
     @Override
-    public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        int layoutIdForListItem = R.layout.recipe_item;
         LayoutInflater inflater = LayoutInflater.from(context);
-        boolean shouldAttachToParentImmediately = false;
+        RecyclerView.ViewHolder vh;
+        View view;
 
-        View view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
-        RecipeViewHolder viewHolder = new RecipeViewHolder(view);
+        if (viewType == VIEW_TYPE_EMPTY) {
+            view = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.empty_list, parent, false);
+            vh = new EmptyHolder(view);
+        }else {
 
-        return viewHolder;
+            int layoutIdForListItem = R.layout.recipe_item;
+
+            boolean shouldAttachToParentImmediately = false;
+
+            view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
+            vh = new RecipeViewHolder(view);
+        }
+
+        return vh;
     }
 
     @Override
-    public void onBindViewHolder(RecipeViewHolder holder, int position) {
-        ImageView imgView = holder.recipeImage;
-        if(!mRecipeItems.get(position).getImage().isEmpty())
-            Picasso.with(imgView.getContext()).load(mRecipeItems.get(position).getImage())
-                .fit()
-                .into(imgView);
-        holder.recipeTitle.setText(mRecipeItems.get(position).getName());
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+        final int itemType = getItemViewType(position);
+
+        if (itemType == VIEW_NORMAL) {
+
+            ImageView imgView = ((RecipeViewHolder) holder).recipeImage;
+            if (!mRecipeItems.get(position).getImage().isEmpty())
+                Picasso.with(imgView.getContext()).load(mRecipeItems.get(position).getImage())
+                        .fit()
+                        .into(imgView);
+            ((RecipeViewHolder) holder).recipeTitle.setText(mRecipeItems.get(position).getName());
+        }
     }
 
-    @Override
-    public int getItemCount() {
-        return mRecipeItems.size();
-    }
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView recipeImage;
@@ -63,7 +79,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         public RecipeViewHolder(View itemView) {
             super(itemView);
 
-            recipeImage = (ImageView) itemView.findViewById(R.id.iv_recipe_image);
+            recipeImage = (ImageView) itemView.findViewById(R.id.iv_embarassed);
             recipeTitle = (TextView) itemView.findViewById(R.id.textView_recipe_title);
             recipeImage.setOnClickListener(this);
 
@@ -76,9 +92,44 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         }
     }
 
+    public class EmptyHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+
+        public EmptyHolder(View itemView) {
+            super(itemView);
+
+
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
+
+
     public void setRecipes(ArrayList<RecipeModel> recipeItems){
         mRecipeItems = recipeItems;
         notifyDataSetChanged();
     }
+
+    @Override
+    public int getItemCount() {
+        if(mRecipeItems.size() == 0){
+            return 1;
+        }else {
+            return mRecipeItems.size();
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mRecipeItems.size() == 0) {
+            return VIEW_TYPE_EMPTY;
+        }else{
+            return VIEW_NORMAL;
+        }
+    }
+
 
 }

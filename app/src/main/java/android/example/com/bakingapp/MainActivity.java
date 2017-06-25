@@ -20,6 +20,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -32,17 +33,15 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
     private static ArrayList<RecipeModel> mRecipeList = null;
 
     private final String TAG = MainActivity.class.getSimpleName();
-
+    final DatabaseHelper mDBHelper = new DatabaseHelper(this);
+    private ConnectionManager cManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ProgressDialog dialog = ProgressDialog.show(this, "",
-                getResources().getString(R.string.loading), true);
-
-
         mRecipeRecyclerView = (RecyclerView) findViewById(R.id.rv_recipes);
+        mRecipeRecyclerView.setVisibility(View.INVISIBLE);
 
         if(findViewById(R.id.framelayout_tablet)==null) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -56,17 +55,34 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
 
 
         mRecipeAdapter = new RecipeAdapter(this);
+
         mRecipeRecyclerView.setAdapter(mRecipeAdapter);
 
-        final DatabaseHelper mDBHelper = new DatabaseHelper(this);
-        ConnectionManager cManager = ConnectionManager.getInstance();
+
+        cManager = ConnectionManager.getInstance();
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // this code will be executed after 2 seconds
+                refreshData();
+            }
+        }, 200);
+
+        mRecipeRecyclerView.setVisibility(View.VISIBLE);
+
+
+
+    }
+
+    public void refreshData(){
+
 
         cManager.request(ConnectionManager.URL, new ConnectionCallback() {
             @Override
             public void connectionResponse(int status, Object data) {
-                dialog.dismiss();
 
-                if(status == ConnectionManager.FAIL){
+                if (status == ConnectionManager.FAIL) {
                     AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                     alertDialog.setTitle(getResources().getString(R.string.error_title));
                     alertDialog.setMessage((String) data);
@@ -79,13 +95,13 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
 
                     mRecipeList = mDBHelper.getRecipes();
 
-                    if(mRecipeList.isEmpty())
+                    if (mRecipeList.isEmpty())
                         alertDialog.show();
                     else
                         mRecipeAdapter.setRecipes(mRecipeList);
-                }else{
+                } else {
                     ArrayList<RecipeModel> recipes = (ArrayList<RecipeModel>) data;
-                    for(RecipeModel recipe: recipes) {
+                    for (RecipeModel recipe : recipes) {
                         mDBHelper.addRecipe(recipe);
                         mRecipeAdapter.setRecipes(mDBHelper.getRecipes());
                     }
@@ -96,9 +112,11 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
             }
         });
 
+    }
 
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
