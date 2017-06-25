@@ -111,7 +111,8 @@ public class ExoPlayerFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        mVideoPosition = mExoPlayer.getCurrentPosition();
+        if(mExoPlayer!=null)
+            mVideoPosition = mExoPlayer.getCurrentPosition();
         releasePlayer();
     }
 

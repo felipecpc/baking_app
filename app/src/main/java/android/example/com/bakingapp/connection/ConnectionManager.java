@@ -5,7 +5,10 @@ import android.example.com.bakingapp.model.RecipeModel;
 import android.util.Log;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.Dispatcher;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,14 +28,20 @@ public class ConnectionManager {
     public static String URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/";
 
     private static ConnectionManager connectionManager = null;
+    private static MyExecutor myExecutor = null;
 
     private ConnectionManager(){
 
     }
 
+    public static MyExecutor getMyExecutor(){
+        return myExecutor;
+    }
+
     public static ConnectionManager getInstance(){
         if (connectionManager==null) {
             connectionManager = new ConnectionManager();
+            myExecutor = new MyExecutor();
         }
 
         return connectionManager;
@@ -40,7 +49,14 @@ public class ConnectionManager {
 
     public void request(String url, final ConnectionCallback callback){
 
+        OkHttpClient.Builder okHttpClient_builder = new OkHttpClient().newBuilder();
+        okHttpClient_builder.connectTimeout(10, TimeUnit.SECONDS);
+        okHttpClient_builder.readTimeout(20, TimeUnit.SECONDS);
+
+        okHttpClient_builder.dispatcher(new Dispatcher(myExecutor));
+
         Retrofit retrofit = new Retrofit.Builder()
+                .client(okHttpClient_builder.build())
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -49,6 +65,7 @@ public class ConnectionManager {
         service.listRecipe().enqueue(new Callback<List<RecipeModel>>() {
             @Override
             public void onResponse(Call<List<RecipeModel>> call, Response<List<RecipeModel>> response) {
+                myExecutor.setIdleState(true);
                 callback.connectionResponse(SUCCESS,response.body());
             }
 

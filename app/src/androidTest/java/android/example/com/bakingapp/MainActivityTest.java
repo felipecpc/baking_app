@@ -1,6 +1,9 @@
 package android.example.com.bakingapp;
 
-
+import android.example.com.bakingapp.connection.ConnectionManager;
+import android.example.com.bakingapp.connection.MyExecutor;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingPolicies;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -15,6 +18,8 @@ import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -35,6 +40,15 @@ public class MainActivityTest {
     @Test
     public void mainActivityTest() {
 
+        // changing idling timeout
+        IdlingPolicies.setMasterPolicyTimeout(
+                60000 * 2, TimeUnit.MILLISECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(
+                60000 * 2, TimeUnit.MILLISECONDS);
+
+        // registering IdlingResource with Espresso
+        Espresso.registerIdlingResources(ConnectionManager.getMyExecutor());
+        ConnectionManager.getMyExecutor().setIdleState(false);
 
         onView(withId(R.id.rv_recipes))
                 .perform(actionOnItemAtPosition(0, click()));
@@ -84,7 +98,7 @@ public class MainActivityTest {
         //Check it continues on step 1
         onView(withText("Step 1")).check(matches(isDisplayed()));
 
-
+        Espresso.unregisterIdlingResources(ConnectionManager.getMyExecutor());
 
 
     }

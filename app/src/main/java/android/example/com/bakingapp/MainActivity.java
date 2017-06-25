@@ -22,6 +22,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements ItemSelectedInterface {
 
@@ -57,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
         mRecipeRecyclerView.setAdapter(mRecipeAdapter);
 
         final DatabaseHelper mDBHelper = new DatabaseHelper(this);
-
         ConnectionManager cManager = ConnectionManager.getInstance();
+
         cManager.request(ConnectionManager.URL, new ConnectionCallback() {
             @Override
             public void connectionResponse(int status, Object data) {
@@ -93,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
 
             }
         });
+
+
 
 
     }
