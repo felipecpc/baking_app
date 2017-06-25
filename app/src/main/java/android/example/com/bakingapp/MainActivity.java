@@ -13,6 +13,7 @@ import android.example.com.bakingapp.database.DatabaseHelper;
 import android.example.com.bakingapp.model.RecipeModel;
 import android.example.com.bakingapp.model.StepsModel;
 import android.example.com.bakingapp.view.RecipeInstructionsActivity;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements ItemSelectedInterface {
 
+    private static final String LIST_STATE = "LIST_STATE";
     private RecyclerView mRecipeRecyclerView;
     private RecipeAdapter mRecipeAdapter;
     private static ArrayList<RecipeModel> mRecipeList = null;
@@ -35,6 +37,10 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
     private final String TAG = MainActivity.class.getSimpleName();
     final DatabaseHelper mDBHelper = new DatabaseHelper(this);
     private ConnectionManager cManager;
+    private LinearLayoutManager layoutManager;
+    private GridLayoutManager gridlayoutManager;
+    private Parcelable mBundleRecyclerViewState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,23 +49,30 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
         mRecipeRecyclerView = (RecyclerView) findViewById(R.id.rv_recipes);
         mRecipeRecyclerView.setVisibility(View.INVISIBLE);
 
-        if(findViewById(R.id.framelayout_tablet)==null) {
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            mRecipeRecyclerView.setLayoutManager(layoutManager);
-        }else{
-            GridLayoutManager layoutManager = new GridLayoutManager(this,2);
-            mRecipeRecyclerView.setLayoutManager(layoutManager);
-        }
-
-        mRecipeRecyclerView.setHasFixedSize(true);
-
-
-        mRecipeAdapter = new RecipeAdapter(this);
-
-        mRecipeRecyclerView.setAdapter(mRecipeAdapter);
-
 
         cManager = ConnectionManager.getInstance();
+
+        if(findViewById(R.id.framelayout_tablet)==null) {
+            layoutManager = new LinearLayoutManager(this);
+            mRecipeRecyclerView.setLayoutManager(layoutManager);
+        }else{
+            gridlayoutManager = new GridLayoutManager(this,2);
+            mRecipeRecyclerView.setLayoutManager(gridlayoutManager);
+        }
+        
+        mRecipeList = mDBHelper.getRecipes();
+
+        mRecipeRecyclerView.setHasFixedSize(true);
+        mRecipeAdapter = new RecipeAdapter(this);
+        mRecipeAdapter.setRecipes(mRecipeList);
+        if(savedInstanceState!=null) {
+            mBundleRecyclerViewState = savedInstanceState.getParcelable(LIST_STATE);
+            // restore RecyclerView state
+            if (mBundleRecyclerViewState != null) {
+                mRecipeRecyclerView.getLayoutManager().onRestoreInstanceState(mBundleRecyclerViewState);
+            }
+
+        }
 
         new Timer().schedule(new TimerTask() {
             @Override
@@ -69,8 +82,10 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
             }
         }, 200);
 
-        mRecipeRecyclerView.setVisibility(View.VISIBLE);
 
+
+        mRecipeRecyclerView.setVisibility(View.VISIBLE);
+        mRecipeRecyclerView.setAdapter(mRecipeAdapter);
 
 
     }
@@ -122,6 +137,8 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
     @Override
     protected void onResume() {
         super.onResume();
+
+
         //Update widget
         Intent intent = new Intent(this,RecipeWidget.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
@@ -141,4 +158,12 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
     }
 
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save list state
+        mBundleRecyclerViewState = mRecipeRecyclerView.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(LIST_STATE, mBundleRecyclerViewState);
+
+    }
 }
