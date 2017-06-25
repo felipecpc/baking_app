@@ -57,6 +57,7 @@ public class ExoPlayerFragment extends Fragment {
         return rootView;
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
@@ -71,8 +72,7 @@ public class ExoPlayerFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(VIDEO_URL,mVideoURL);
-        if(mExoPlayer!=null)
-            outState.putLong(VIDEO_POSITION, mExoPlayer.getCurrentPosition());
+        outState.putLong(VIDEO_POSITION, mVideoPosition);
     }
 
     /**
@@ -111,6 +111,7 @@ public class ExoPlayerFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        mVideoPosition = mExoPlayer.getCurrentPosition();
         releasePlayer();
     }
 
@@ -118,6 +119,7 @@ public class ExoPlayerFragment extends Fragment {
      * Release ExoPlayer.
      */
     private void releasePlayer() {
+
         if(mExoPlayer!=null) {
             mExoPlayer.stop();
             mExoPlayer.release();

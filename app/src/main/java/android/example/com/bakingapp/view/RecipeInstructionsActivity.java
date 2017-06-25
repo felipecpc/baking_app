@@ -54,7 +54,6 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
 
     private final String STEP = "STEP";
     public static final String RECIPE = "RECIPE";
-    public static final String RECIPE_NAME = "RECIPE_NAME";
     private final String TOTAL = "TOTAL";
 
     @Override
@@ -72,7 +71,7 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
             mRecipeModel = test.getRecipeDetails(mId);
             mStepId = 0;
             mStepsTotal = mRecipeModel.getSteps().size();
-            recipe_name = getIntent().getStringExtra(RECIPE_NAME);
+            recipe_name = getIntent().getStringExtra(StepsModel.RECIPE_NAME);
         }
 
         setContentView(R.layout.activity_recipe_instructions);
@@ -142,7 +141,7 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
         int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), RecipeWidget.class));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
         intent.putExtra(RECIPE,mId);
-        intent.putExtra(RECIPE_NAME,recipe_name);
+        intent.putExtra(StepsModel.RECIPE_NAME,recipe_name);
         sendBroadcast(intent);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.example.com.bakingapp.database.DatabaseHelper;
 import android.example.com.bakingapp.model.IngredientsModel;
 import android.example.com.bakingapp.model.RecipeModel;
+import android.example.com.bakingapp.model.StepsModel;
 import android.example.com.bakingapp.view.RecipeInstructionsActivity;
 import android.net.Uri;
 import android.util.Log;
@@ -78,7 +79,7 @@ public class RecipeWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         if(intent.hasExtra(RecipeInstructionsActivity.RECIPE)) {
             recipe_id = intent.getIntExtra(RecipeInstructionsActivity.RECIPE,0);
-            recipe_name = intent.getStringExtra(RecipeInstructionsActivity.RECIPE_NAME);
+            recipe_name = intent.getStringExtra(StepsModel.RECIPE_NAME);
         }
         super.onReceive(context, intent);
     }

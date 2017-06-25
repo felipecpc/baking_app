@@ -12,6 +12,7 @@ public class StepsModel implements Parcelable{
     public static final String ID = "ID";
     public static final String STEP_ID = "STEP_ID";
     public static final String TOTAL_STEPS = "TOTAL_STEPS";
+    public static final String RECIPE_NAME = "RECIPE_NAME";
 
     private int id;
     private String shortDescription;

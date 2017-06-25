@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
         Log.d(TAG, "Recipe selected " + selected + " " + mRecipeList.get(selected).getId());
         Intent intent = new Intent(this,RecipeInstructionsActivity.class);
         intent.putExtra(StepsModel.ID,mRecipeList.get(selected).getId());
-        intent.putExtra(RecipeInstructionsActivity.RECIPE_NAME,mRecipeList.get(selected).getName());
+        intent.putExtra(StepsModel.RECIPE_NAME,mRecipeList.get(selected).getName());
         startActivity(intent);
     }
 

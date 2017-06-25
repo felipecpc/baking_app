@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -88,7 +89,6 @@ public class StepDetailsActivity extends AppCompatActivity {
                 mStepsTotal = getIntent().getIntExtra(StepsModel.TOTAL_STEPS,0);
                 DatabaseHelper test = new DatabaseHelper(this);
                 steps = test.getRecipeStep(mRecipeId, mStepId);
-
             }
 
             stepsFragment.setData(steps);
@@ -139,6 +139,7 @@ public class StepDetailsActivity extends AppCompatActivity {
             fLayout.setVisibility(View.GONE);
         }
 
+        getSupportActionBar().setTitle("");
     }
 
 
@@ -161,4 +162,17 @@ public class StepDetailsActivity extends AppCompatActivity {
         outState.putInt(TOTAL,mStepsTotal);
         outState.putParcelable(STEP_MODEL,steps);
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
