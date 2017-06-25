@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
             gridlayoutManager = new GridLayoutManager(this,2);
             mRecipeRecyclerView.setLayoutManager(gridlayoutManager);
         }
-        
+
         mRecipeList = mDBHelper.getRecipes();
 
         mRecipeRecyclerView.setHasFixedSize(true);

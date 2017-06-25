@@ -83,6 +83,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             recipeTitle = (TextView) itemView.findViewById(R.id.textView_recipe_title);
             recipeImage.setOnClickListener(this);
 
+
+
         }
 
         @Override

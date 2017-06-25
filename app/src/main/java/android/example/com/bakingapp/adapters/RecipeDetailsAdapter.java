@@ -8,7 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +47,7 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         if (itemType == ITEM_TYPE_NORMAL) {
             ((RecipeStepsViewHolder)holder).setText(String.valueOf(position),steps.get(position-1).getShortDescription());
+            ((RecipeStepsViewHolder)holder).setImage(steps.get(position-1).getThumbnailURL());
 
         } else if (itemType == ITEM_TYPE_HEADER) {
             String ingredients="";
@@ -103,6 +107,7 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         private TextView tvStepDescription;
         private TextView tvStepCounter;
+        private ImageView thumbnail;
 
         public RecipeStepsViewHolder(View view) {
             super(view);
@@ -116,6 +121,7 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
             });
             tvStepDescription = (TextView) view.findViewById(R.id.textView_step_description);
             tvStepCounter = (TextView) view.findViewById(R.id.textView_step_counter);
+            thumbnail = (ImageView) view.findViewById(R.id.imageView_thumbnail);
         }
 
         public void setText(String position, String text){
@@ -123,6 +129,18 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvStepCounter.setText(position);
         }
 
+        public void setImage(String image) {
+
+            if(image!=null && !image.isEmpty()) {
+                if(image.contains(".jpg") || image.contains(".png") || image.contains(".bmp")) {
+                    Picasso.with(thumbnail.getContext()).load(image)
+                            .fit()
+                            .into(thumbnail);
+                }
+            }
+
+
+        }
     }
 
 }
