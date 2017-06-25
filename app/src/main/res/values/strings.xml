@@ -13,4 +13,6 @@
     <string name="step_missing">Sorry but this step is missing on the download recipe.</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="loading">Loading. Please wait...</string>
+    <string name="error_title">Error</string>
 </resources>

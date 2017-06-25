@@ -19,12 +19,20 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".view.RecipeInstructionsActivity" />
-        <activity android:name=".view.StepDetailsActivity" />
+        <activity android:name=".view.RecipeInstructionsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.example.com.bakingapp.MainActivity" />
+        </activity>
+        <activity android:name=".view.StepDetailsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.example.com.bakingapp.MainActivity" />
+        </activity>
 
         <receiver android:name=".RecipeWidget">
             <intent-filter>
@@ -38,6 +46,7 @@
 
         <service android:name="WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
 
     </application>
 

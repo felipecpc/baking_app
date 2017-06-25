@@ -8,6 +8,7 @@ import android.example.com.bakingapp.database.DatabaseHelper;
 import android.example.com.bakingapp.model.IngredientsModel;
 import android.example.com.bakingapp.model.RecipeModel;
 import android.example.com.bakingapp.model.StepsModel;
+import android.example.com.bakingapp.view.RecipeInstructionsActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -63,6 +64,7 @@ public class RecipeWidgetViewFactory implements RemoteViewsService.RemoteViewsFa
 
         Intent i=new Intent();
         i.putExtra(StepsModel.ID,  items.get(position).getId());
+        i.putExtra(RecipeInstructionsActivity.RECIPE_NAME,  items.get(position).getName());
         row.setOnClickFillInIntent(R.id.textView_recipe, i);
 
         return(row);

@@ -13,9 +13,11 @@ import android.example.com.bakingapp.model.RecipeModel;
 import android.example.com.bakingapp.model.StepsModel;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -142,6 +144,9 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
         intent.putExtra(RECIPE,mId);
         intent.putExtra(RECIPE_NAME,recipe_name);
         sendBroadcast(intent);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(recipe_name);
     }
 
     @Override
@@ -218,4 +223,6 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
             startActivity(intent);
         }
     }
+
+
 }

@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
         setContentView(R.layout.activity_main);
 
         final ProgressDialog dialog = ProgressDialog.show(this, "",
-                "Loading. Please wait...", true);
+                getResources().getString(R.string.loading), true);
 
 
         mRecipeRecyclerView = (RecyclerView) findViewById(R.id.rv_recipes);
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
 
                 if(status == ConnectionManager.FAIL){
                     AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-                    alertDialog.setTitle("Error");
+                    alertDialog.setTitle(getResources().getString(R.string.error_title));
                     alertDialog.setMessage((String) data);
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                             new DialogInterface.OnClickListener() {
