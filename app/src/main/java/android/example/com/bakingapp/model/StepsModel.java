@@ -9,7 +9,6 @@ import android.os.Parcelable;
 
 public class StepsModel implements Parcelable{
 
-    public static final String DATA = "DATA";
     public static final String ID = "ID";
     public static final String STEP_ID = "STEP_ID";
     public static final String TOTAL_STEPS = "TOTAL_STEPS";

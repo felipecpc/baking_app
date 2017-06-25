@@ -1,6 +1,8 @@
 package android.example.com.bakingapp;
 
 import android.app.ProgressDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.example.com.bakingapp.adapters.ItemSelectedInterface;
@@ -92,6 +94,19 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
             }
         });
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //Update widget
+        Intent intent = new Intent(this,RecipeWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), RecipeWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+        intent.putExtra(RecipeInstructionsActivity.RECIPE,0);
+        sendBroadcast(intent);
     }
 
     @Override
@@ -99,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements ItemSelectedInter
         Log.d(TAG, "Recipe selected " + selected + " " + mRecipeList.get(selected).getId());
         Intent intent = new Intent(this,RecipeInstructionsActivity.class);
         intent.putExtra(StepsModel.ID,mRecipeList.get(selected).getId());
+        intent.putExtra(RecipeInstructionsActivity.RECIPE_NAME,mRecipeList.get(selected).getName());
         startActivity(intent);
     }
 

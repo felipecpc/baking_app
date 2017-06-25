@@ -1,19 +1,27 @@
 package android.example.com.bakingapp;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.example.com.bakingapp.database.DatabaseHelper;
+import android.example.com.bakingapp.model.IngredientsModel;
+import android.example.com.bakingapp.model.RecipeModel;
 import android.example.com.bakingapp.view.RecipeInstructionsActivity;
 import android.net.Uri;
+import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class RecipeWidget extends AppWidgetProvider {
+
+    private static int recipe_id = 0;
+    private static String recipe_name = "";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -27,8 +35,24 @@ public class RecipeWidget extends AppWidgetProvider {
         svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
-        views.setRemoteAdapter(appWidgetId, R.id.appwidget_recipe_listview,
+        views.setRemoteAdapter(R.id.appwidget_recipe_listview,
                 svcIntent);
+        if(recipe_id!=0) {
+            DatabaseHelper mDBHelper  = new DatabaseHelper(context);
+            RecipeModel model = mDBHelper.getRecipeDetails(recipe_id);
+
+            String ingredients=recipe_name+"\n";
+            for(IngredientsModel ingredModel:  model.getIngredients()){
+                ingredients = ingredients + ingredModel.getQuantity() + " " + ingredModel.getMeasure() + " " + ingredModel.getIngredient() + "\n";
+            }
+            views.setTextViewText(R.id.textview_widget_ingredients,ingredients);
+            views.setViewVisibility(R.id.appwidget_recipe_listview, View.GONE);
+            views.setViewVisibility(R.id.textview_widget_ingredients,View.VISIBLE);
+        }else{
+            views.setViewVisibility(R.id.appwidget_recipe_listview, View.VISIBLE);
+            views.setViewVisibility(R.id.textview_widget_ingredients,View.GONE);
+        }
+
 
         Intent clickIntent=new Intent(context, RecipeInstructionsActivity.class);
         PendingIntent clickPI=PendingIntent
@@ -48,6 +72,15 @@ public class RecipeWidget extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if(intent.hasExtra(RecipeInstructionsActivity.RECIPE)) {
+            recipe_id = intent.getIntExtra(RecipeInstructionsActivity.RECIPE,0);
+            recipe_name = intent.getStringExtra(RecipeInstructionsActivity.RECIPE_NAME);
+        }
+        super.onReceive(context, intent);
     }
 
     @Override

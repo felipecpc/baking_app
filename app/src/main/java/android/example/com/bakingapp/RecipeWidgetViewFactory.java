@@ -24,6 +24,7 @@ public class RecipeWidgetViewFactory implements RemoteViewsService.RemoteViewsFa
     private Context ctxt=null;
     private int appWidgetId;
     private DatabaseHelper mDBHelper;
+    private int recipe_id=0;
 
     public RecipeWidgetViewFactory(Context ctxt, Intent intent) {
         this.ctxt=ctxt;
@@ -33,6 +34,7 @@ public class RecipeWidgetViewFactory implements RemoteViewsService.RemoteViewsFa
 
         appWidgetId=intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
+
     }
 
     @Override
@@ -44,6 +46,7 @@ public class RecipeWidgetViewFactory implements RemoteViewsService.RemoteViewsFa
     public void onDestroy() {
         // no-op
     }
+
 
     @Override
     public int getCount() {

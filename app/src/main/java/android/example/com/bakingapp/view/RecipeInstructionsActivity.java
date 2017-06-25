@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.example.com.bakingapp.R;
 import android.example.com.bakingapp.RecipeWidget;
+import android.example.com.bakingapp.WidgetService;
 import android.example.com.bakingapp.adapters.ItemSelectedInterface;
 import android.example.com.bakingapp.database.BakingAppDBHelper;
 import android.example.com.bakingapp.database.DatabaseHelper;
@@ -46,10 +47,12 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
     private int mId;
     private int mStepId;
     private int mStepsTotal;
+    private String recipe_name;
 
 
     private final String STEP = "STEP";
-    private final String RECIPE = "RECIPE";
+    public static final String RECIPE = "RECIPE";
+    public static final String RECIPE_NAME = "RECIPE_NAME";
     private final String TOTAL = "TOTAL";
 
     @Override
@@ -67,6 +70,7 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
             mRecipeModel = test.getRecipeDetails(mId);
             mStepId = 0;
             mStepsTotal = mRecipeModel.getSteps().size();
+            recipe_name = getIntent().getStringExtra(RECIPE_NAME);
         }
 
         setContentView(R.layout.activity_recipe_instructions);
@@ -136,6 +140,7 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
         int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), RecipeWidget.class));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
         intent.putExtra(RECIPE,mId);
+        intent.putExtra(RECIPE_NAME,recipe_name);
         sendBroadcast(intent);
     }
 
