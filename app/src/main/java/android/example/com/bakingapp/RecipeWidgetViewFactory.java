@@ -3,14 +3,9 @@ package android.example.com.bakingapp;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.example.com.bakingapp.adapters.RecipeDetailsAdapter;
 import android.example.com.bakingapp.database.DatabaseHelper;
-import android.example.com.bakingapp.model.IngredientsModel;
 import android.example.com.bakingapp.model.RecipeModel;
 import android.example.com.bakingapp.model.StepsModel;
-import android.example.com.bakingapp.view.RecipeInstructionsActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -23,18 +18,13 @@ import java.util.ArrayList;
 public class RecipeWidgetViewFactory implements RemoteViewsService.RemoteViewsFactory {
     private ArrayList<RecipeModel> items;
     private Context ctxt=null;
-    private int appWidgetId;
     private DatabaseHelper mDBHelper;
-    private int recipe_id=0;
 
     public RecipeWidgetViewFactory(Context ctxt, Intent intent) {
         this.ctxt=ctxt;
 
         mDBHelper  = new DatabaseHelper(ctxt);
         items = mDBHelper.getRecipes();
-
-        appWidgetId=intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID);
 
     }
 
