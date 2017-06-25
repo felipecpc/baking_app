@@ -6,9 +6,9 @@ package android.example.com.bakingapp.model;
 
 public class IngredientsModel {
 
-    float quantity;
-    String measure;
-    String ingredient;
+    private float quantity;
+    private String measure;
+    private String ingredient;
 
     public float getQuantity() {
         return quantity;

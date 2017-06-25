@@ -12,7 +12,7 @@ import net.simonvt.schematic.annotation.PrimaryKey;
  * Created by felipe on 17/06/17.
  */
 
-public class BakingContract {
+public final class BakingContract {
 
     public static final String CONTENT_AUTHORITY = "android.eample.com.bakingapp";
 

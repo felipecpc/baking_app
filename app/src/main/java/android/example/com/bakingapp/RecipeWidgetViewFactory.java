@@ -20,10 +20,10 @@ import java.util.ArrayList;
  */
 
 public class RecipeWidgetViewFactory implements RemoteViewsService.RemoteViewsFactory {
-    ArrayList<RecipeModel> items;
+    private ArrayList<RecipeModel> items;
     private Context ctxt=null;
     private int appWidgetId;
-    DatabaseHelper mDBHelper;
+    private DatabaseHelper mDBHelper;
 
     public RecipeWidgetViewFactory(Context ctxt, Intent intent) {
         this.ctxt=ctxt;

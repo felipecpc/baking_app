@@ -20,18 +20,18 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 
 public class StepsBrowserFragment extends Fragment {
 
-    Button buttonNext;
-    Button buttonPrevious;
+    private Button buttonNext;
+    private Button buttonPrevious;
 
-    int mStepId;
-    int mRecipeId;
-    int mStepsTotal;
-    boolean dualPane=false;
+    private int mStepId;
+    private int mRecipeId;
+    private int mStepsTotal;
+    private boolean dualPane=false;
 
-    private String STEP = "STEP";
-    private String RECIPE = "RECIPE";
-    private String TOTAL = "TOTAL";
-    private String DUAL_PANE = "DUAL_PANE";
+    private final String STEP = "STEP";
+    private final String RECIPE = "RECIPE";
+    private final String TOTAL = "TOTAL";
+    private final String DUAL_PANE = "DUAL_PANE";
 
     @Nullable
     @Override

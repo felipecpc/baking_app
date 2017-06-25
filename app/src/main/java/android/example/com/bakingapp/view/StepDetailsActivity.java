@@ -35,20 +35,20 @@ import com.google.android.exoplayer2.util.Util;
 public class StepDetailsActivity extends AppCompatActivity {
 
 
-    int mStepId;
-    int mRecipeId;
-    int mStepsTotal;
-    StepsModel steps=null;
+    private int mStepId;
+    private int mRecipeId;
+    private int mStepsTotal;
+    private StepsModel steps=null;
 
-    StepDetailsFragment stepsFragment;
-    StepsBrowserFragment stepsBrowserFragment;
-    ExoPlayerFragment playerFragment;
-    FragmentManager fragmentManager;
+    private StepDetailsFragment stepsFragment;
+    private StepsBrowserFragment stepsBrowserFragment;
+    private ExoPlayerFragment playerFragment;
+    private FragmentManager fragmentManager;
 
-    private String STEP = "STEP";
-    private String RECIPE = "RECIPE";
-    private String TOTAL = "TOTAL";
-    private String STEP_MODEL = "STEP_MODEL";
+    private final String STEP = "STEP";
+    private final String RECIPE = "RECIPE";
+    private final String TOTAL = "TOTAL";
+    private final String STEP_MODEL = "STEP_MODEL";
 
     public StepDetailsActivity() {
         // Required empty public constructor

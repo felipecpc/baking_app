@@ -28,8 +28,8 @@ public class RecipeMasterListFragment extends Fragment{
 
     private final String TAG = RecipeMasterListFragment.class.getSimpleName();
 
-    RecyclerView mRecipeRecyclerViewList = null;
-    RecipeDetailsAdapter mRecipeDetailsAdapter = null;
+    private RecyclerView mRecipeRecyclerViewList = null;
+    private RecipeDetailsAdapter mRecipeDetailsAdapter = null;
 
     @Nullable
     @Override

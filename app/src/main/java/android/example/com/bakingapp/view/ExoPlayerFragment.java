@@ -38,6 +38,8 @@ public class ExoPlayerFragment extends Fragment {
     private long mVideoPosition=0;
     private String VIDEO_URL = "VIDEO_URL";
     private static final String VIDEO_POSITION = "VIDEO_POSITION";
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

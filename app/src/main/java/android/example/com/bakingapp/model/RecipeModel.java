@@ -8,12 +8,12 @@ import java.util.List;
 
 public class RecipeModel {
 
-    int id;
-    String name;
-    List<IngredientsModel> ingredients;
-    List<StepsModel> steps;
-    String servings;
-    String image;
+    private int id;
+    private String name;
+    private List<IngredientsModel> ingredients;
+    private List<StepsModel> steps;
+    private String servings;
+    private String image;
 
     public int getId() {
         return id;

@@ -17,9 +17,9 @@ import android.widget.TextView;
 public class StepDetailsFragment extends Fragment {
 
     private static final String STEP_DETAILS = "STEP_DETAILS" ;
-    TextView tvStepTitle;
-    TextView tvStepShortDescription;
-    TextView tvStepDescription;
+    private TextView tvStepTitle;
+    private TextView tvStepShortDescription;
+    private TextView tvStepDescription;
 
     StepsModel mStepModel;
 

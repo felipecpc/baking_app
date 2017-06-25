@@ -1,7 +1,10 @@
 package android.example.com.bakingapp.view;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.example.com.bakingapp.R;
+import android.example.com.bakingapp.RecipeWidget;
 import android.example.com.bakingapp.adapters.ItemSelectedInterface;
 import android.example.com.bakingapp.database.BakingAppDBHelper;
 import android.example.com.bakingapp.database.DatabaseHelper;
@@ -34,20 +37,20 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
     private RecipeModel mRecipeModel = null;
 
 
-    StepDetailsFragment stepsFragment;
-    StepsBrowserFragment stepsBrowserFragment;
-    ExoPlayerFragment playerFragment;
-    FragmentManager fragmentManager;
-    FrameLayout fLayout;
+    private StepDetailsFragment stepsFragment;
+    private StepsBrowserFragment stepsBrowserFragment;
+    private ExoPlayerFragment playerFragment;
+    private FragmentManager fragmentManager;
+    private FrameLayout fLayout;
 
     private int mId;
-    int mStepId;
-    int mStepsTotal;
+    private int mStepId;
+    private int mStepsTotal;
 
 
-    private String STEP = "STEP";
-    private String RECIPE = "RECIPE";
-    private String TOTAL = "TOTAL";
+    private final String STEP = "STEP";
+    private final String RECIPE = "RECIPE";
+    private final String TOTAL = "TOTAL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +129,14 @@ public class RecipeInstructionsActivity extends AppCompatActivity implements Ite
                 refreshFragments(mStepId);
             }
         }
+
+        //Update widget
+        Intent intent = new Intent(this,RecipeWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), RecipeWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+        intent.putExtra(RECIPE,mId);
+        sendBroadcast(intent);
     }
 
     @Override

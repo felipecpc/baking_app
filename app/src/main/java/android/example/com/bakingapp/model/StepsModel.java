@@ -14,11 +14,11 @@ public class StepsModel implements Parcelable{
     public static final String STEP_ID = "STEP_ID";
     public static final String TOTAL_STEPS = "TOTAL_STEPS";
 
-    int id;
-    String shortDescription;
-    String description;
-    String videoURL;
-    String thumbnailURL;
+    private int id;
+    private String shortDescription;
+    private String description;
+    private String videoURL;
+    private String thumbnailURL;
 
     public StepsModel(int id, String sDescription, String description, String video, String thumbnail) {
         this.id = id;
